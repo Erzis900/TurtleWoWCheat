@@ -1,5 +1,6 @@
 #include <pch.h>
 #include <base.h>
+#include "../player.hpp"
 
 HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 {
@@ -15,7 +16,7 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 		Data::InitImGui = true;
 	}
 
-	if (!Data::InitImGui) return Data::oEndScene(pDevice);
+	if (!Data::InitImGui) return Data::oEndScene(pDevice); // is this reachable?
 
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
@@ -29,9 +30,6 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 		ImGui::Begin("Turtle WoW internal by Einhar");
 		ImGui::Text("Detected WoW version: %s", Addr::version);
 		ImGui::Checkbox("Slow fall", &Menu::isFallingSpeed);
-
-		Menu::isFallingSpeed ? *Addr::fallingSpeed = 3.f : *Addr::fallingSpeed = Default::fallingSpeed;
-
 		ImGui::Checkbox("Walk speed", &Menu::isWalkingSpeed);
 
 		if(Menu::isWalkingSpeed)
@@ -42,7 +40,9 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 		ImGui::End();
 	}
 
-	Menu::isWalkingSpeed ? *Player::walkingSpeed = walkingSpeed : walkingSpeed = Default::walkingSpeed;
+	walkingSpeed = Player::GetWalkingSpeed();
+	Player::SetFailingSpeed(Menu::isFallingSpeed ? 3.f : Default::fallingSpeed);
+	Player::SetWalkingSpeed(Menu::isWalkingSpeed ? walkingSpeed : Default::walkingSpeed);
 
 	ImGui::EndFrame();
 	ImGui::Render();

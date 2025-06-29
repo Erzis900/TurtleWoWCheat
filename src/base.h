@@ -59,7 +59,6 @@ namespace Base
 	{
 		extern DWORD base;
 		extern DWORD player;
-		extern float* fallingSpeed;
 		extern float* wallClimb;
 		extern char* version;
 	}
@@ -83,13 +82,4 @@ namespace Base
 		extern bool isWallClimb;
 	}
 }
-
-namespace Player
-{
-	extern float* x;
-	extern float* y;
-	extern float* z;
-	extern float* walkingSpeed;
-};
-
 #endif

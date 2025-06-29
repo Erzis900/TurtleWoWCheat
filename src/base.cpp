@@ -36,7 +36,6 @@ namespace Base::Addr
 {
 	DWORD base = (DWORD)GetModuleHandle(nullptr);
 	DWORD player = resolveChain(Base::Addr::base + Base::Offset::player, { 0x5C, 0x9A8 });
-	float* fallingSpeed = (float*)0x0087D894;
 	float* wallClimb = (float*)0x0080DFFC;
 	char* version = (char*)0x00837C04;
 }
@@ -60,14 +59,6 @@ namespace Base::Menu
 	bool isWalkingSpeed = false;
 	bool isWallClimb = false;
 }
-
-namespace Player
-{
-	float* y = (float*)(Base::Addr::player + 0x14);
-	float* z = (float*)(Base::Addr::player + 0x18);
-	float* x = (float*)(Base::Addr::player + 0x10);
-	float* walkingSpeed = (float*)(Base::Addr::player + 0x84);
-};
 
 //Functions
 
