@@ -16,6 +16,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\imgui\imconfig.h" />
@@ -30,6 +31,8 @@
     <ClInclude Include="src\base.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\player.hpp" />
+    <ClInclude Include="src\player.h" />
+    <ClInclude Include="src\menu.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="assets\readme.txt" />

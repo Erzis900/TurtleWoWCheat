@@ -1,4 +1,4 @@
-
+#pragma once
 namespace Player
 {
 	extern float* x;

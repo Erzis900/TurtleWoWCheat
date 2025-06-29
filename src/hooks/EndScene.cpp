@@ -1,6 +1,7 @@
 #include <pch.h>
 #include <base.h>
-#include "../player.hpp"
+#include "../player.h"
+#include "../menu.h"
 
 HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 {
@@ -22,9 +23,6 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	// TODO fix ugly code
-	static float walkingSpeed = Default::walkingSpeed;
-
 	if (Data::ShowMenu)
 	{
 		ImGui::Begin("Turtle WoW internal by Einhar");
@@ -34,16 +32,14 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 
 		if(Menu::isWalkingSpeed)
 		{
-			ImGui::SliderFloat("Walk speed", &walkingSpeed, 0.f, 200.f);
+			ImGui::SliderFloat("Walk speed", Player::walkingSpeed, 0.f, 200.f);
 		}
 
 		ImGui::End();
 	}
 
-	walkingSpeed = Player::GetWalkingSpeed();
-	Player::SetFailingSpeed(Menu::isFallingSpeed ? 3.f : Default::fallingSpeed);
-	Player::SetWalkingSpeed(Menu::isWalkingSpeed ? walkingSpeed : Default::walkingSpeed);
-
+	Menu::ExecuteOptions();
+	
 	ImGui::EndFrame();
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());

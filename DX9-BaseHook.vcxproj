@@ -214,6 +214,7 @@
     <ClCompile Include="src\hooks\hooks.cpp" />
     <ClCompile Include="src\hooks\WndProc.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\menu.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -233,7 +234,9 @@
     <ClInclude Include="include\imgui\imstb_truetype.h" />
     <ClInclude Include="include\libmem++\libmem.hpp" />
     <ClInclude Include="src\base.h" />
+    <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\player.h" />
     <ClInclude Include="src\player.hpp" />
   </ItemGroup>
   <ItemGroup>

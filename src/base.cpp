@@ -53,13 +53,6 @@ namespace Base::Default
 	float wallClimb = 0.64;
 }
 
-namespace Base::Menu
-{
-	bool isFallingSpeed = false;
-	bool isWalkingSpeed = false;
-	bool isWallClimb = false;
-}
-
 //Functions
 
 bool Base::Init()
