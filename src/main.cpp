@@ -7,15 +7,6 @@ DWORD WINAPI MainThread(LPVOID lpThreadParameter)
 	Base::Data::hModule = (HMODULE)lpThreadParameter;
 	Base::Init();
 
-	// TODO move this to menu, was just testing, also ugly code
-	DWORD oldProtect;
-	VirtualProtect((LPVOID)(Base::Addr::base + 0x3C625F), 2, PAGE_EXECUTE_READWRITE, &oldProtect);
-	*(uint16_t*)(Base::Addr::base + 0x3C625F) = 0x9090; // Infinite jump
-
-	uint8_t nops[3] = { 0x90, 0x90, 0x90 };
-	memcpy((void*)(Base::Addr::base + 0x3C63DA), nops, 3); // No fall damage
-	VirtualProtect((LPVOID)(Base::Addr::base + 0x3C625F), 2, oldProtect, &oldProtect);
-
 	return TRUE;
 }
 

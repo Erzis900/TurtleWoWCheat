@@ -1,6 +1,7 @@
 #include <pch.h>
 #include <base.h>
 #include <vector>
+#include "utils.h"
 
 //Data
 HMODULE           Base::Data::hModule    = (HMODULE)NULL;
@@ -21,21 +22,10 @@ bool              Base::Data::ToDetach   = false;
 bool              Base::Data::ShowMenu   = true;
 bool              Base::Data::InitImGui  = false;
 
-DWORD resolveChain(DWORD base, std::vector<DWORD> offsets)
-{
-	for (auto& o : offsets)
-	{
-		base = *(DWORD*)base;
-		base += o;
-	}
-
-	return base;
-}
-
 namespace Base::Addr
 {
 	DWORD base = (DWORD)GetModuleHandle(nullptr);
-	DWORD player = resolveChain(Base::Addr::base + Base::Offset::player, { 0x5C, 0x9A8 });
+	DWORD player = Utils::resolveChain(Base::Addr::base + Base::Offset::player, { 0x5C, 0x9A8 });
 	float* wallClimb = (float*)0x0080DFFC;
 	char* version = (char*)0x00837C04;
 }

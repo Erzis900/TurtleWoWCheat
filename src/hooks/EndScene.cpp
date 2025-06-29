@@ -1,6 +1,5 @@
 #include <pch.h>
 #include <base.h>
-#include "../player.h"
 #include "../menu.h"
 
 HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
@@ -25,17 +24,7 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 
 	if (Data::ShowMenu)
 	{
-		ImGui::Begin("Turtle WoW internal by Einhar");
-		ImGui::Text("Detected WoW version: %s", Addr::version);
-		ImGui::Checkbox("Slow fall", &Menu::isFallingSpeed);
-		ImGui::Checkbox("Walk speed", &Menu::isWalkingSpeed);
-
-		if(Menu::isWalkingSpeed)
-		{
-			ImGui::SliderFloat("Walk speed", Player::walkingSpeed, 0.f, 200.f);
-		}
-
-		ImGui::End();
+		Menu::Display();
 	}
 
 	Menu::ExecuteOptions();
