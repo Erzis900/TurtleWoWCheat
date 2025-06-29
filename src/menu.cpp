@@ -10,7 +10,7 @@ namespace Menu
     bool isInfiniteJump = false;
     bool isNoFallDamage = false;
 
-    void Display()
+    void Show()
     {
         ImGui::Begin("Turtle WoW internal by Einhar");
         ImGui::Text("Detected WoW version: %s", Base::Addr::version);
@@ -26,15 +26,15 @@ namespace Menu
         }
 
         ImGui::Checkbox("Infinite jump", &isInfiniteJump);
-        if (isInfiniteJump && !Utils::IsNOP(Base::Addr::base + 0x3C625F, 2))
+        if (isInfiniteJump && !Utils::IsNOP(Base::Addr::base + Base::Offset::infiniteJump, 2))
         {
-            Utils::NOP(Base::Addr::base + 0x3C625F, 2);
+            Utils::NOP(Base::Addr::base + Base::Offset::infiniteJump, 2);
         }
 
         ImGui::Checkbox("No Fall Damage", &isNoFallDamage);
-        if (isNoFallDamage && !Utils::IsNOP(Base::Addr::base + 0x3C63DA, 3))
+        if (isNoFallDamage && !Utils::IsNOP(Base::Addr::base + Base::Offset::noFallDamage, 3))
         {
-            Utils::NOP(Base::Addr::base + 0x3C63DA, 3);
+            Utils::NOP(Base::Addr::base + Base::Offset::noFallDamage, 3);
         }
 
         ImGui::End();

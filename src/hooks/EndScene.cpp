@@ -24,7 +24,7 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 
 	if (Data::ShowMenu)
 	{
-		Menu::Display();
+		Menu::Show();
 	}
 
 	Menu::ExecuteOptions();

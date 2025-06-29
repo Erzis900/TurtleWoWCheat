@@ -10,6 +10,6 @@ namespace Menu
     extern bool isInfiniteJump;
     extern bool isNoFallDamage;
 
-    void Display();
+    void Show();
     void ExecuteOptions();
 }

@@ -33,6 +33,8 @@ namespace Base::Addr
 namespace Base::Offset
 {
 	DWORD player = 0x000AE4EC;
+	DWORD infiniteJump = 0x3C625F;
+	DWORD noFallDamage = 0x3C63DA;
 }
 
 namespace Base::Default

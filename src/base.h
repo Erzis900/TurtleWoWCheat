@@ -63,6 +63,8 @@ namespace Base
 	namespace Offset
 	{
 		extern DWORD player;
+		extern DWORD infiniteJump;
+		extern DWORD noFallDamage;
 	}
 
 	namespace Default
