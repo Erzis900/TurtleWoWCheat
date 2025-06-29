@@ -3,9 +3,9 @@
 
 namespace Menu
 {
-	bool isFallingSpeed = false;
-	bool isWalkingSpeed = false;
-	bool isWallClimb = false;
+    bool isFallingSpeed = false;
+    bool isWalkingSpeed = false;
+    bool isWallClimb = false;
 
     void ExecuteOptions()
     {

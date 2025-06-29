@@ -4,11 +4,11 @@
 
 namespace Player
 {
-	float* y = (float*)(Base::Addr::player + 0x14);
-	float* z = (float*)(Base::Addr::player + 0x18);
-	float* x = (float*)(Base::Addr::player + 0x10);
-	float* walkingSpeed = (float*)(Base::Addr::player + 0x84);
-	float* fallingSpeed = (float*)0x0087D894;
+    float* y = (float*)(Base::Addr::player + 0x14);
+    float* z = (float*)(Base::Addr::player + 0x18);
+    float* x = (float*)(Base::Addr::player + 0x10);
+    float* walkingSpeed = (float*)(Base::Addr::player + 0x84);
+    float* fallingSpeed = (float*)0x0087D894;
 
     void SetWalkingSpeed(float speed)
     {
@@ -20,13 +20,13 @@ namespace Player
         return *walkingSpeed;
     }
 
-	void SetFailingSpeed(float speed)
-	{
-		*fallingSpeed = speed;
-	}
+    void SetFailingSpeed(float speed)
+    {
+        *fallingSpeed = speed;
+    }
 
-	float GetFailingSpeed()
-	{
-		return *fallingSpeed;
-	}
+    float GetFailingSpeed()
+    {
+        return *fallingSpeed;
+    }
 };
