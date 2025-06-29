@@ -1,7 +1,4 @@
 #pragma once
-#ifndef BASE_H
-#define BASE_H
-
 #if defined(MEM_86)
 #define WNDPROC_INDEX GWL_WNDPROC
 #elif defined(MEM_64)
@@ -59,7 +56,6 @@ namespace Base
 	{
 		extern DWORD base;
 		extern DWORD player;
-		extern float* fallingSpeed;
 		extern float* wallClimb;
 		extern char* version;
 	}
@@ -75,21 +71,4 @@ namespace Base
 		extern float walkingSpeed;
 		extern float wallClimb;
 	}
-
-	namespace Menu
-	{
-		extern bool isFallingSpeed;
-		extern bool isWalkingSpeed;
-		extern bool isWallClimb;
-	}
 }
-
-namespace Player
-{
-	extern float* x;
-	extern float* y;
-	extern float* z;
-	extern float* walkingSpeed;
-};
-
-#endif

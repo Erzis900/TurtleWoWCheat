@@ -1,5 +1,7 @@
 #include <pch.h>
 #include <base.h>
+#include "../player.h"
+#include "../menu.h"
 
 HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 {
@@ -15,35 +17,29 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 		Data::InitImGui = true;
 	}
 
-	if (!Data::InitImGui) return Data::oEndScene(pDevice);
+	if (!Data::InitImGui) return Data::oEndScene(pDevice); // is this reachable?
 
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
-	// TODO fix ugly code
-	static float walkingSpeed = Default::walkingSpeed;
 
 	if (Data::ShowMenu)
 	{
 		ImGui::Begin("Turtle WoW internal by Einhar");
 		ImGui::Text("Detected WoW version: %s", Addr::version);
 		ImGui::Checkbox("Slow fall", &Menu::isFallingSpeed);
-
-		Menu::isFallingSpeed ? *Addr::fallingSpeed = 3.f : *Addr::fallingSpeed = Default::fallingSpeed;
-
 		ImGui::Checkbox("Walk speed", &Menu::isWalkingSpeed);
 
 		if(Menu::isWalkingSpeed)
 		{
-			ImGui::SliderFloat("Walk speed", &walkingSpeed, 0.f, 200.f);
+			ImGui::SliderFloat("Walk speed", Player::walkingSpeed, 0.f, 200.f);
 		}
 
 		ImGui::End();
 	}
 
-	Menu::isWalkingSpeed ? *Player::walkingSpeed = walkingSpeed : walkingSpeed = Default::walkingSpeed;
-
+	Menu::ExecuteOptions();
+	
 	ImGui::EndFrame();
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
