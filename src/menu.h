@@ -7,6 +7,9 @@ namespace Menu
     extern bool isFallingSpeed;
     extern bool isWalkingSpeed;
     extern bool isWallClimb;
+    extern bool isInfiniteJump;
+    extern bool isNoFallDamage;
 
+    void Show();
     void ExecuteOptions();
 }

@@ -9,6 +9,7 @@ namespace Player
 
     void SetWalkingSpeed(float speed);
     float GetWalkingSpeed();
-    float GetFailingSpeed();
-    void SetFailingSpeed(float speed);
+
+    void SetFallingSpeed(float speed);
+    float GetFallingSpeed();
 };
