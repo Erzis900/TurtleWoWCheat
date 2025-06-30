@@ -1,9 +1,12 @@
 #include <pch.h>
 #include "utils.h"
+#include <algorithm>
 
 namespace Utils
 {
-	DWORD ResolveChain(DWORD base, std::vector<DWORD> offsets)
+	constexpr DWORD nopCode = 0x90;
+
+	DWORD ResolveChain(DWORD base, const std::vector<DWORD>& offsets)
 	{
 		for (auto& o : offsets)
 		{
@@ -14,7 +17,7 @@ namespace Utils
 		return base;
 	}
 
-	void Patch(DWORD address, std::vector<BYTE> bytes)
+	void Patch(DWORD address, const std::vector<DWORD>& bytes)
 	{
 		DWORD oldProtect;
 		VirtualProtect((LPVOID*)address, bytes.size(), PAGE_EXECUTE_READWRITE, &oldProtect);
@@ -26,22 +29,13 @@ namespace Utils
 
 	void NOP(DWORD address, int count)
 	{
-		DWORD oldProtect;
-		VirtualProtect((LPVOID*)address, count, PAGE_EXECUTE_READWRITE, &oldProtect);
-		
-		memset((LPVOID*)address, 0x90, count);
-
-		VirtualProtect((LPVOID*)address, count, oldProtect, &oldProtect);
+		Patch(address, std::vector<DWORD>(count, nopCode));
 	}
 
 	bool IsNOP(DWORD address, int count)
 	{
-		for (int i = 0; i < count; i++)
-		{
-			if (*(BYTE*)(address + i) != 0x90)
-				return false;
-		}
-
-		return true;
+		const BYTE* begin = reinterpret_cast<BYTE*>(address);
+		const BYTE* end = reinterpret_cast<BYTE*>(address) + count;
+		return std::all_of(begin, end, [](BYTE byte) { return byte == nopCode; });
 	}
 }
