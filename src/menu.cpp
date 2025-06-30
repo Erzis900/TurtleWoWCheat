@@ -26,16 +26,7 @@ namespace Menu
         }
 
         ImGui::Checkbox("Infinite jump", &isInfiniteJump);
-        if (isInfiniteJump && !Utils::IsNOP(Base::Addr::base + Base::Offset::infiniteJump, 2))
-        {
-            Utils::NOP(Base::Addr::base + Base::Offset::infiniteJump, 2);
-        }
-
         ImGui::Checkbox("No Fall Damage", &isNoFallDamage);
-        if (isNoFallDamage && !Utils::IsNOP(Base::Addr::base + Base::Offset::noFallDamage, 3))
-        {
-            Utils::NOP(Base::Addr::base + Base::Offset::noFallDamage, 3);
-        }
 
         ImGui::End();
     }
@@ -44,5 +35,23 @@ namespace Menu
     {
         Player::SetFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
         if (!isWalkingSpeed) Player::SetWalkingSpeed(Base::Default::walkingSpeed);
+
+        if (isInfiniteJump)
+        {
+            Utils::NOP(Base::Addr::infiniteJump, 2);
+        }
+        else
+        {
+            Utils::Patch(Base::Addr::infiniteJump, { 0x75, 0x27 });
+        }
+
+        if (isNoFallDamage)
+        {
+            Utils::NOP(Base::Addr::noFallDamage, 3);
+        }
+        else
+        {
+            Utils::Patch(Base::Addr::noFallDamage, { 0x8B, 0x4F, 0x78 });
+        }
     }
 }

@@ -3,7 +3,7 @@
 
 namespace Utils
 {
-	DWORD resolveChain(DWORD base, std::vector<DWORD> offsets)
+	DWORD ResolveChain(DWORD base, std::vector<DWORD> offsets)
 	{
 		for (auto& o : offsets)
 		{
@@ -14,7 +14,16 @@ namespace Utils
 		return base;
 	}
 
-	// TODO write a restore function that restores the original bytes
+	void Patch(DWORD address, std::vector<BYTE> bytes)
+	{
+		DWORD oldProtect;
+		VirtualProtect((LPVOID*)address, bytes.size(), PAGE_EXECUTE_READWRITE, &oldProtect);
+
+		memcpy((LPVOID*)address, bytes.data(), bytes.size());
+
+		VirtualProtect((LPVOID*)address, bytes.size(), oldProtect, &oldProtect);
+	}
+
 	void NOP(DWORD address, int count)
 	{
 		DWORD oldProtect;

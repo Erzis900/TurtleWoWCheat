@@ -56,6 +56,8 @@ namespace Base
 	{
 		extern DWORD base;
 		extern DWORD player;
+		extern DWORD infiniteJump;
+		extern DWORD noFallDamage;
 		extern float* wallClimb;
 		extern char* version;
 	}

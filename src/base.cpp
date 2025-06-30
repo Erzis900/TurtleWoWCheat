@@ -22,51 +22,56 @@ bool              Base::Data::ToDetach   = false;
 bool              Base::Data::ShowMenu   = true;
 bool              Base::Data::InitImGui  = false;
 
-namespace Base::Addr
+namespace Base
 {
-	DWORD base = (DWORD)GetModuleHandle(nullptr);
-	DWORD player = Utils::resolveChain(Base::Addr::base + Base::Offset::player, { 0x5C, 0x9A8 });
-	float* wallClimb = (float*)0x0080DFFC;
-	char* version = (char*)0x00837C04;
-}
+	namespace Addr
+	{
+		DWORD base = (DWORD)GetModuleHandle(nullptr);
+		DWORD player = Utils::ResolveChain(base + Offset::player, { 0x5C, 0x9A8 });
+		DWORD infiniteJump = base + Offset::infiniteJump;
+		DWORD noFallDamage = base + Offset::noFallDamage;
+		float* wallClimb = (float*)0x0080DFFC;
+		char* version = (char*)0x00837C04;
+	}
 
-namespace Base::Offset
-{
-	DWORD player = 0x000AE4EC;
-	DWORD infiniteJump = 0x3C625F;
-	DWORD noFallDamage = 0x3C63DA;
-}
+	namespace Offset
+	{
+		DWORD player = 0x000AE4EC;
+		DWORD infiniteJump = 0x3C625F;
+		DWORD noFallDamage = 0x3C63DA;
+	}
 
-namespace Base::Default
-{
-	// TODO pretty useless, we should read those from memory on init
-	float fallingSpeed = 64.f;
-	float walkingSpeed = 7.f;
-	float wallClimb = 0.64;
-}
+	namespace Default
+	{
+		// TODO pretty useless, we should read those from memory on init
+		float fallingSpeed = 64.f;
+		float walkingSpeed = 7.f;
+		float wallClimb = 0.64f;
+	}
 
-//Functions
+	//Functions
 
-bool Base::Init()
-{
-	Hooks::Init();
+	bool Init()
+	{
+		Hooks::Init();
 
-	FILE* fp;
-	AllocConsole();
-	freopen_s(&fp, "CONOUT$", "w", stdout);
+		FILE* fp;
+		AllocConsole();
+		freopen_s(&fp, "CONOUT$", "w", stdout);
 
-	return true;
-}
+		return true;
+	}
 
-bool Base::Shutdown()
-{
-	Hooks::Shutdown();
-	return true;
-}
+	bool Shutdown()
+	{
+		Hooks::Shutdown();
+		return true;
+	}
 
-bool Base::Detach()
-{
-	Base::Shutdown();
-	CreateThread(nullptr, 0, ExitThread, Data::hModule, 0, nullptr);
-	return true;
+	bool Detach()
+	{
+		Base::Shutdown();
+		CreateThread(nullptr, 0, ExitThread, Data::hModule, 0, nullptr);
+		return true;
+	}
 }
