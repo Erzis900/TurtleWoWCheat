@@ -57,7 +57,6 @@ namespace Base
 		FILE* fp;
 		AllocConsole();
 		freopen_s(&fp, "CONOUT$", "w", stdout);
-
 		return true;
 	}
 

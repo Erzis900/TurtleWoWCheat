@@ -6,11 +6,24 @@ namespace Utils
 {
 	constexpr DWORD nopCode = 0x90;
 
+	template<typename T>
+	T Read(DWORD address)
+	{
+		DWORD oldProtect;
+		VirtualProtect((LPVOID*)address, sizeof(T), PAGE_EXECUTE_READWRITE, &oldProtect);
+
+		T value = *(T*)(address);
+
+		VirtualProtect((LPVOID*)address, sizeof(T), oldProtect, &oldProtect);
+
+		return value;
+	}
+
 	DWORD ResolveChain(DWORD base, const std::vector<DWORD>& offsets)
 	{
 		for (auto& o : offsets)
-		{
-			base = *(DWORD*)base;
+		{			
+			base = Read<DWORD>(base);
 			base += o;
 		}
 
@@ -34,8 +47,12 @@ namespace Utils
 
 	bool IsNOP(DWORD address, int count)
 	{
-		const BYTE* begin = reinterpret_cast<BYTE*>(address);
-		const BYTE* end = reinterpret_cast<BYTE*>(address) + count;
-		return std::all_of(begin, end, [](BYTE byte) { return byte == nopCode; });
+		for (int i = 0; i < count; i++)
+		{
+			if (Read<BYTE>(address + i) != nopCode)
+				return false;
+		}
+
+		return true;
 	}
 }

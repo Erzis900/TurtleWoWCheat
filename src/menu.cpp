@@ -23,7 +23,7 @@ namespace Menu
             // TODO fix walking speed
             // slider changes it once on slider value change and the game overwrites it
             // we need to write to the address each frame to overwrite the speed value
-            ImGui::SliderFloat("Walk speed", &Menu::walkingSpeed, 0.f, 200.f);
+            ImGui::SliderFloat("Walk speed", &Menu::walkingSpeed, 0.f, 300.f);
         }
 
         ImGui::Checkbox("Infinite jump", &isInfiniteJump);
@@ -34,9 +34,17 @@ namespace Menu
 
     void ExecuteOptions()
     {
-        auto& player = Player::Get();
-        player.fallingSpeed() = isFallingSpeed ? 3.f : Base::Default::fallingSpeed;
-        player.walkingSpeed() = isWalkingSpeed ? walkingSpeed : Base::Default::walkingSpeed;
+        [[maybe_unused]] auto& player = Player::Get();
+        if(isWalkingSpeed)
+        {
+            std::cout << "Setting walking speed to: " << walkingSpeed << std::endl;
+        }
+        if(isFallingSpeed)
+        {
+            std::cout << "Setting falling speed to: " << 3.f << std::endl;
+        }
+        player.setFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
+        player.setWalkingSpeed(isWalkingSpeed ? walkingSpeed : Base::Default::walkingSpeed);
 
         if (isInfiniteJump)
         {
@@ -47,13 +55,13 @@ namespace Menu
             Utils::Patch(Base::Addr::infiniteJump, { 0x75, 0x27 });
         }
 
-        if (isNoFallDamage)
-        {
-            Utils::NOP(Base::Addr::noFallDamage, 3);
-        }
-        else
-        {
-            Utils::Patch(Base::Addr::noFallDamage, { 0x8B, 0x4F, 0x78 });
-        }
+        // if (isNoFallDamage)
+        // {
+        //     Utils::NOP(Base::Addr::noFallDamage, 3);
+        // }
+        // else
+        // {
+        //     Utils::Patch(Base::Addr::noFallDamage, { 0x8B, 0x4F, 0x78 });
+        // }
     }
 }

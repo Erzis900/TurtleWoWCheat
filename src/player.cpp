@@ -15,5 +15,4 @@ Player::Player()
       yAddr(reinterpret_cast<float*>(playerAddr + playerPosOffsets[1])),
       zAddr(reinterpret_cast<float*>(playerAddr + playerPosOffsets[2])),
       walkingSpeedAddr(reinterpret_cast<float*>(playerAddr + walkingSpeedOffset))
-{
 }
