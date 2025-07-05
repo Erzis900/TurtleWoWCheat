@@ -20,13 +20,14 @@ void Menu::Show()
     ImGui::Begin("Turtle WoW internal by Einhar");
     ImGui::Text("Detected WoW version: %s", Base::Addr::version);
     ImGui::Checkbox("Slow Fall", &isFallingSpeed);
-    ImGui::Checkbox("Walk Speed", &isWalkingSpeed);
     ImGui::Checkbox("Wall Climb", &isWallClimb);
+    ImGui::Checkbox("Walk Speed", &isWalkingSpeed);
 
     if (isWalkingSpeed)
     {
         ImGui::SliderFloat("Walk Speed", &walkingSpeed, 0.f, 300.f);
     }
+
     for(auto& [name, cheatStruct]: patchCheats)
     {
         ImGui::Checkbox(name.c_str(), &cheatStruct.checkboxState);
