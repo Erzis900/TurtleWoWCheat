@@ -23,9 +23,9 @@ public:
     void setWallClimb(float value) { wallClimbAddr = value; }
 
 private:
-    static const INT walkingSpeedOffset = 0x84;
-    static const std::vector<INT> playerAddrOffsets;
-    static const INT playerPosOffsets[3];
+    static const int walkingSpeedOffset = 0x84;
+    static const std::vector<int> playerAddrOffsets;
+    static const int playerPosOffsets[3];
     Protected<float> fallingSpeedAddr{ reinterpret_cast<float*>(0x0087D894) };
     Protected<float> wallClimbAddr{ reinterpret_cast<float*>(0x0080DFFC) };
     DWORD playerAddr;
