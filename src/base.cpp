@@ -42,7 +42,6 @@ namespace Base
 
 	namespace Default
 	{
-		// TODO pretty useless, we should read those from memory on init
 		float fallingSpeed = 64.f;
 		float walkingSpeed = 7.f;
 		float wallClimb = 0.64f;

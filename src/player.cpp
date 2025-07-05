@@ -10,9 +10,9 @@ Player& Player::Get()
 }
 
 Player::Player()
-    : playerAddr(Utils::ResolveChain(Base::Addr::base + Base::Offset::player, playerAddrOffsets)),
+    : playerAddr(Utils::ResolveChain(Base::Addr::base + Base::Offset::player, { 0x5C, 0x9A8 })), // TODO fix offsets argument passing
       xAddr(reinterpret_cast<float*>(playerAddr + playerPosOffsets[0])),
       yAddr(reinterpret_cast<float*>(playerAddr + playerPosOffsets[1])),
       zAddr(reinterpret_cast<float*>(playerAddr + playerPosOffsets[2])),
-      walkingSpeedAddr(reinterpret_cast<float*>(playerAddr + walkingSpeedOffset))
-}
+      walkingSpeedAddr(reinterpret_cast<float*>(playerAddr + 0x84)) // TODO fix offsets argument passing
+{}

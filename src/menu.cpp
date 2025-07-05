@@ -38,13 +38,15 @@ namespace Menu
         if(isWalkingSpeed)
         {
             std::cout << "Setting walking speed to: " << walkingSpeed << std::endl;
+            player.setWalkingSpeed(walkingSpeed);
         }
+
         if(isFallingSpeed)
         {
             std::cout << "Setting falling speed to: " << 3.f << std::endl;
         }
+
         player.setFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
-        player.setWalkingSpeed(isWalkingSpeed ? walkingSpeed : Base::Default::walkingSpeed);
 
         if (isInfiniteJump)
         {
@@ -55,13 +57,13 @@ namespace Menu
             Utils::Patch(Base::Addr::infiniteJump, { 0x75, 0x27 });
         }
 
-        // if (isNoFallDamage)
-        // {
-        //     Utils::NOP(Base::Addr::noFallDamage, 3);
-        // }
-        // else
-        // {
-        //     Utils::Patch(Base::Addr::noFallDamage, { 0x8B, 0x4F, 0x78 });
-        // }
+        if (isNoFallDamage)
+        {
+            Utils::NOP(Base::Addr::noFallDamage, 3);
+        }
+        else
+        {
+            Utils::Patch(Base::Addr::noFallDamage, { 0x8B, 0x4F, 0x78 });
+        }
     }
 }
