@@ -22,12 +22,13 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	auto& menu = Menu::Get();
 	if (Data::ShowMenu)
 	{
-		Menu::Show();
+		menu.Show();
 	}
 
-	Menu::ExecuteOptions();
+	menu.ExecuteOptions();
 	
 	ImGui::EndFrame();
 	ImGui::Render();

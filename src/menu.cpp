@@ -2,101 +2,97 @@
 #include "menu.h"
 #include "utils.h"
 
-namespace Menu
+Menu& Menu::Get()
 {
-    bool isFallingSpeed = false;
-    bool isWalkingSpeed = false;
-    bool isWallClimb = false;
-    bool isInfiniteJump = false;
-    bool isNoFallDamage = false;
-    bool isAirSwim = false;
-    bool isSuperFly = false;
-    bool isUnlockZoom = false;
-    float walkingSpeed = Base::Default::walkingSpeed;
-
-    void Show()
+    static bool firstAccess{true};
+    static Menu instance;
+    
+    if(firstAccess)
     {
-        ImGui::Begin("Turtle WoW internal by Einhar");
-        ImGui::Text("Detected WoW version: %s", Base::Addr::version);
-        ImGui::Checkbox("Slow Fall", &isFallingSpeed);
-        ImGui::Checkbox("Walk Speed", &isWalkingSpeed);
+        instance.initializePatchCheats();
+        firstAccess = false;
+    }
+    return instance;
+}
 
-        if (isWalkingSpeed)
-        {
-            ImGui::SliderFloat("Walk Speed", &Menu::walkingSpeed, 0.f, 300.f);
-        }
+void Menu::Show()
+{
+    ImGui::Begin("Turtle WoW internal by Einhar");
+    ImGui::Text("Detected WoW version: %s", Base::Addr::version);
+    ImGui::Checkbox("Slow Fall", &isFallingSpeed);
+    ImGui::Checkbox("Wall Climb", &isWallClimb);
+    ImGui::Checkbox("Walk Speed", &isWalkingSpeed);
 
-        ImGui::Checkbox("Infinite Jump", &isInfiniteJump);
-        ImGui::Checkbox("No Fall Damage", &isNoFallDamage);
-        ImGui::Checkbox("Wall Climb", &isWallClimb);
-        ImGui::Checkbox("Air Swim", &isAirSwim);
-        ImGui::Checkbox("Super Fly", &isSuperFly);
-        ImGui::Checkbox("Unlock Zoom", &isUnlockZoom);
-
-        ImGui::End();
+    if (isWalkingSpeed)
+    {
+        ImGui::SliderFloat("Walk Speed", &walkingSpeed, 0.f, 300.f);
     }
 
-    void ExecuteOptions()
+    for(auto& [name, cheatStruct]: patchCheats)
     {
-        [[maybe_unused]] auto& player = Player::Get();
-        if(isWalkingSpeed)
-        {
-            std::cout << "Setting walking speed to: " << walkingSpeed << std::endl;
-            player.setWalkingSpeed(walkingSpeed);
-        }
+        ImGui::Checkbox(name.c_str(), &cheatStruct.checkboxState);
+    }
 
-        if(isFallingSpeed)
-        {
-            std::cout << "Setting falling speed to: " << 3.f << std::endl;
-        }
+    ImGui::End();
+}
 
-        player.setFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
+void Menu::ExecuteOptions()
+{
+    [[maybe_unused]] auto& player = Player::Get();
+    if(isWalkingSpeed)
+    {
+        std::cout << "Setting walking speed to: " << walkingSpeed << std::endl;
+        player.setWalkingSpeed(walkingSpeed);
+    }
+    player.setFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
+    player.setWallClimb(isWallClimb ? 0.f : Base::Default::wallClimb);
 
-        if (isInfiniteJump)
-        {
-            Utils::NOP(Base::Addr::infiniteJump, 2);
-        }
-        else
-        {
-            Utils::Patch(Base::Addr::infiniteJump, { 0x75, 0x27 });
-        }
+    if(isFallingSpeed)
+    {
+        std::cout << "Setting falling speed to: " << 3.f << std::endl;
+    }
 
-        if (isNoFallDamage)
+    for(auto& [_, cheatStruct]: patchCheats)
+    {
+        if(!cheatStruct.checkboxState && cheatStruct.patchState)
         {
-            Utils::NOP(Base::Addr::noFallDamage, 3);
+            Utils::Patch(cheatStruct.address, cheatStruct.originalBytes);
+            cheatStruct.patchState = false;
         }
-        else
+        if(cheatStruct.checkboxState && !cheatStruct.patchState)
         {
-            Utils::Patch(Base::Addr::noFallDamage, { 0x8B, 0x4F, 0x78 });
-        }
-
-        player.setWallClimb(isWallClimb ? 0.f : Base::Default::wallClimb);
-
-        if (isAirSwim)
-        {
-            Utils::Patch(Base::Addr::airSwim, { 0x00, 0x20 });
-        }
-        else
-        {
-            Utils::Patch(Base::Addr::airSwim, { 0x20, 0x00 });
-        }
-
-        if (isSuperFly)
-        {
-            Utils::NOP(Base::Addr::superFly, 2);
-        }
-        else
-        {
-            Utils::Patch(Base::Addr::superFly, { 0x74, 0x25 });
-        }
-
-        if (isUnlockZoom)
-        {
-            Utils::NOP(Base::Addr::unlockZoom, 3);
-        }
-        else
-        {
-            Utils::Patch(Base::Addr::unlockZoom, { 0xF6, 0xC4, 0x41 });
+            Utils::Patch(cheatStruct.address, cheatStruct.patchBytes);
+            cheatStruct.patchState = true;
         }
     }
+}
+
+
+void Menu::initializePatchCheats()
+{
+    constexpr auto numberOfPatchCheats = 5;
+    assert(patchCheats.empty());
+
+    auto emplace = [&patchCheats=this->patchCheats](const std::string& cheatName,
+            DWORD address, std::vector<BYTE> originalBytes, std::vector<BYTE> patchBytes = std::vector<BYTE>{})
+    {
+        const DWORD nopcode = 0x90;
+        auto instance = PatchCheat{
+            false, // checkbox state
+            false, // patch state (was already done in memory?)
+            originalBytes.size(),
+            originalBytes, 
+            patchBytes, // patch bytes or NOP if none
+            address};
+        if(instance.patchBytes.empty())
+        {
+            instance.patchBytes = std::vector<BYTE>(instance.patchSize, nopcode);
+        }
+        patchCheats.insert({cheatName, instance});
+    };
+    emplace("Infinite Jump", Base::Addr::infiniteJump, {0x75, 0x27});
+    emplace("No Fall Damage", Base::Addr::noFallDamage, {0x8B, 0x4F, 0x78});
+    emplace("Air Swim", Base::Addr::airSwim, {0x20, 0x00}, {0x00, 0x20});
+    emplace("Super Fly", Base::Addr::superFly, {0x74, 0x25});
+    emplace("Unlock Zoom", Base::Addr::unlockZoom, {0xF6, 0xC4, 0x41});
 }
