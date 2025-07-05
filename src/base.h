@@ -59,6 +59,7 @@ namespace Base
 		extern DWORD infiniteJump;
 		extern DWORD noFallDamage;
 		extern DWORD airSwim;
+		extern DWORD superFly;
 		extern char* version;
 	}
 
@@ -68,6 +69,7 @@ namespace Base
 		extern DWORD infiniteJump;
 		extern DWORD noFallDamage;
 		extern DWORD airSwim;
+		extern DWORD superFly;
 	}
 
 	namespace Default

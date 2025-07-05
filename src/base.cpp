@@ -30,6 +30,7 @@ namespace Base
 		DWORD infiniteJump = base + Offset::infiniteJump;
 		DWORD noFallDamage = base + Offset::noFallDamage;
 		DWORD airSwim = base + Offset::airSwim;
+		DWORD superFly = base + Offset::superFly;
 		char* version = (char*)0x00837C04;
 	}
 
@@ -39,6 +40,7 @@ namespace Base
 		DWORD infiniteJump = 0x3C625F;
 		DWORD noFallDamage = 0x3C63DA;
 		DWORD airSwim = 0x3C620D;
+		DWORD superFly = 0x2341BC;
 	}
 
 	namespace Default

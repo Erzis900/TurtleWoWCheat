@@ -10,6 +10,7 @@ namespace Menu
     extern bool isInfiniteJump;
     extern bool isNoFallDamage;
     extern bool isAirSwim;
+    extern bool isSuperFly;
     extern float walkingSpeed;
 
     void Show();
