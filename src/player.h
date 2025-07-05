@@ -17,8 +17,10 @@ public:
 
     float getWalkingSpeed() const { return *walkingSpeedAddr; }
     float getFallingSpeed() const { return *fallingSpeedAddr; }
+    float getWallClimb() const { return *wallClimbAddr; }
     void setWalkingSpeed(float speed) { walkingSpeedAddr = speed; }
     void setFallingSpeed(float speed) { fallingSpeedAddr = speed; }
+    void setWallClimb(float value) { wallClimbAddr = value; }
 
 private:
     DWORD playerAddr;
@@ -29,6 +31,7 @@ private:
     const std::vector<DWORD> playerAddrOffsets = { 0x5C, 0x9A8 };
     const DWORD playerPosOffsets[3] = { 0x10, 0x14, 0x18 };
     Protected<float> fallingSpeedAddr{ reinterpret_cast<float*>(0x0087D894) };
+    Protected<float> wallClimbAddr{ reinterpret_cast<float*>(0x0080DFFC) };
     const DWORD walkingSpeedOffset = 0x84;
 
     Player();

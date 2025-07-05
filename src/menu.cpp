@@ -15,19 +15,18 @@ namespace Menu
     {
         ImGui::Begin("Turtle WoW internal by Einhar");
         ImGui::Text("Detected WoW version: %s", Base::Addr::version);
-        ImGui::Checkbox("Slow fall", &isFallingSpeed);
-        ImGui::Checkbox("Walk speed", &isWalkingSpeed);
+        ImGui::Checkbox("Slow Fall", &isFallingSpeed);
+        ImGui::Checkbox("Walk Speed", &isWalkingSpeed);
 
         if (isWalkingSpeed)
         {
-            // TODO fix walking speed
-            // slider changes it once on slider value change and the game overwrites it
-            // we need to write to the address each frame to overwrite the speed value
-            ImGui::SliderFloat("Walk speed", &Menu::walkingSpeed, 0.f, 300.f);
+            ImGui::SliderFloat("Walk Speed", &Menu::walkingSpeed, 0.f, 300.f);
         }
 
-        ImGui::Checkbox("Infinite jump", &isInfiniteJump);
+        ImGui::Checkbox("Infinite Jump", &isInfiniteJump);
         ImGui::Checkbox("No Fall Damage", &isNoFallDamage);
+
+        ImGui::Checkbox("Wall Climb", &isWallClimb);
 
         ImGui::End();
     }
@@ -65,5 +64,7 @@ namespace Menu
         {
             Utils::Patch(Base::Addr::noFallDamage, { 0x8B, 0x4F, 0x78 });
         }
+
+        player.setWallClimb(isWallClimb ? 0.f : Base::Default::wallClimb);
     }
 }

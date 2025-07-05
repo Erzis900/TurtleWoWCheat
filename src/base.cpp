@@ -29,7 +29,6 @@ namespace Base
 		DWORD base = (DWORD)GetModuleHandle(nullptr);
 		DWORD infiniteJump = base + Offset::infiniteJump;
 		DWORD noFallDamage = base + Offset::noFallDamage;
-		float* wallClimb = (float*)0x0080DFFC;
 		char* version = (char*)0x00837C04;
 	}
 
