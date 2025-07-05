@@ -31,6 +31,7 @@ namespace Base
 		DWORD noFallDamage = base + Offset::noFallDamage;
 		DWORD airSwim = base + Offset::airSwim;
 		DWORD superFly = base + Offset::superFly;
+		DWORD unlockZoom = base + Offset::unlockZoom;
 		char* version = (char*)0x00837C04;
 	}
 
@@ -41,6 +42,7 @@ namespace Base
 		DWORD noFallDamage = 0x3C63DA;
 		DWORD airSwim = 0x3C620D;
 		DWORD superFly = 0x2341BC;
+		DWORD unlockZoom = 0x111459;
 	}
 
 	namespace Default
