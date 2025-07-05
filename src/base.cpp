@@ -27,7 +27,6 @@ namespace Base
 	namespace Addr
 	{
 		DWORD base = (DWORD)GetModuleHandle(nullptr);
-		DWORD player = Utils::ResolveChain(base + Offset::player, { 0x5C, 0x9A8 });
 		DWORD infiniteJump = base + Offset::infiniteJump;
 		DWORD noFallDamage = base + Offset::noFallDamage;
 		float* wallClimb = (float*)0x0080DFFC;
@@ -43,7 +42,6 @@ namespace Base
 
 	namespace Default
 	{
-		// TODO pretty useless, we should read those from memory on init
 		float fallingSpeed = 64.f;
 		float walkingSpeed = 7.f;
 		float wallClimb = 0.64f;
@@ -58,7 +56,6 @@ namespace Base
 		FILE* fp;
 		AllocConsole();
 		freopen_s(&fp, "CONOUT$", "w", stdout);
-
 		return true;
 	}
 

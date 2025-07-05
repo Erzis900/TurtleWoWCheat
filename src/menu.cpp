@@ -9,6 +9,7 @@ namespace Menu
     bool isWallClimb = false;
     bool isInfiniteJump = false;
     bool isNoFallDamage = false;
+    float walkingSpeed = Base::Default::walkingSpeed;
 
     void Show()
     {
@@ -22,7 +23,7 @@ namespace Menu
             // TODO fix walking speed
             // slider changes it once on slider value change and the game overwrites it
             // we need to write to the address each frame to overwrite the speed value
-            ImGui::SliderFloat("Walk speed", Player::walkingSpeed, 0.f, 200.f);
+            ImGui::SliderFloat("Walk speed", &Menu::walkingSpeed, 0.f, 300.f);
         }
 
         ImGui::Checkbox("Infinite jump", &isInfiniteJump);
@@ -33,8 +34,19 @@ namespace Menu
 
     void ExecuteOptions()
     {
-        Player::SetFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
-        if (!isWalkingSpeed) Player::SetWalkingSpeed(Base::Default::walkingSpeed);
+        [[maybe_unused]] auto& player = Player::Get();
+        if(isWalkingSpeed)
+        {
+            std::cout << "Setting walking speed to: " << walkingSpeed << std::endl;
+            player.setWalkingSpeed(walkingSpeed);
+        }
+
+        if(isFallingSpeed)
+        {
+            std::cout << "Setting falling speed to: " << 3.f << std::endl;
+        }
+
+        player.setFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
 
         if (isInfiniteJump)
         {
