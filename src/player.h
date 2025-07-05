@@ -28,11 +28,11 @@ private:
     Protected<float> yAddr;
     Protected<float> zAddr;
     Protected<float> walkingSpeedAddr;
-    const std::vector<DWORD> playerAddrOffsets = { 0x5C, 0x9A8 };
-    const DWORD playerPosOffsets[3] = { 0x10, 0x14, 0x18 };
+    static const std::vector<INT> playerAddrOffsets;
+    static const INT playerPosOffsets[3];
     Protected<float> fallingSpeedAddr{ reinterpret_cast<float*>(0x0087D894) };
     Protected<float> wallClimbAddr{ reinterpret_cast<float*>(0x0080DFFC) };
-    const DWORD walkingSpeedOffset = 0x84;
+    static const INT walkingSpeedOffset = 0x84;
 
     Player();
     Player(const Player&) = delete;

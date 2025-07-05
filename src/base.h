@@ -65,11 +65,11 @@ namespace Base
 
 	namespace Offset
 	{
-		extern DWORD player;
-		extern DWORD infiniteJump;
-		extern DWORD noFallDamage;
-		extern DWORD airSwim;
-		extern DWORD superFly;
+		extern int player;
+		extern int infiniteJump;
+		extern int noFallDamage;
+		extern int airSwim;
+		extern int superFly;
 	}
 
 	namespace Default
