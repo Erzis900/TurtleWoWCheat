@@ -6,10 +6,10 @@ namespace Utils
 {
 	constexpr DWORD nopCode = 0x90;
 
-	DWORD ResolveChain(DWORD base, const std::vector<DWORD>& offsets)
+	DWORD ResolveChain(DWORD base, const std::vector<int>& offsets)
 	{
 		for (auto& o : offsets)
-		{			
+		{
 			base = Read<DWORD>(base);
 			base += o;
 		}

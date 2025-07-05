@@ -37,12 +37,12 @@ namespace Base
 
 	namespace Offset
 	{
-		DWORD player = 0x000AE4EC;
-		DWORD infiniteJump = 0x3C625F;
-		DWORD noFallDamage = 0x3C63DA;
-		DWORD airSwim = 0x3C620D;
-		DWORD superFly = 0x2341BC;
-		DWORD unlockZoom = 0x111459;
+		int player = 0x000AE4EC;
+		int infiniteJump = 0x3C625F;
+		int noFallDamage = 0x3C63DA;
+		int airSwim = 0x3C620D;
+		int superFly = 0x2341BC;
+		int unlockZoom = 0x111459;
 	}
 
 	namespace Default
