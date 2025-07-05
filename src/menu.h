@@ -11,6 +11,7 @@ namespace Menu
     extern bool isNoFallDamage;
     extern bool isAirSwim;
     extern bool isSuperFly;
+    extern bool isUnlockZoom;
     extern float walkingSpeed;
 
     void Show();

@@ -60,6 +60,7 @@ namespace Base
 		extern DWORD noFallDamage;
 		extern DWORD airSwim;
 		extern DWORD superFly;
+		extern DWORD unlockZoom;
 		extern char* version;
 	}
 
@@ -70,6 +71,7 @@ namespace Base
 		extern int noFallDamage;
 		extern int airSwim;
 		extern int superFly;
+		extern int unlockZoom;
 	}
 
 	namespace Default

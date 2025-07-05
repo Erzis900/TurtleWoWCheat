@@ -11,6 +11,7 @@ namespace Menu
     bool isNoFallDamage = false;
     bool isAirSwim = false;
     bool isSuperFly = false;
+    bool isUnlockZoom = false;
     float walkingSpeed = Base::Default::walkingSpeed;
 
     void Show()
@@ -30,6 +31,7 @@ namespace Menu
         ImGui::Checkbox("Wall Climb", &isWallClimb);
         ImGui::Checkbox("Air Swim", &isAirSwim);
         ImGui::Checkbox("Super Fly", &isSuperFly);
+        ImGui::Checkbox("Unlock Zoom", &isUnlockZoom);
 
         ImGui::End();
     }
@@ -86,6 +88,15 @@ namespace Menu
         else
         {
             Utils::Patch(Base::Addr::superFly, { 0x74, 0x25 });
+        }
+
+        if (isUnlockZoom)
+        {
+            Utils::NOP(Base::Addr::unlockZoom, 3);
+        }
+        else
+        {
+            Utils::Patch(Base::Addr::unlockZoom, { 0xF6, 0xC4, 0x41 });
         }
     }
 }
