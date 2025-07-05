@@ -9,6 +9,7 @@ namespace Menu
     bool isWallClimb = false;
     bool isInfiniteJump = false;
     bool isNoFallDamage = false;
+    bool isAirSwim = false;
     float walkingSpeed = Base::Default::walkingSpeed;
 
     void Show()
@@ -25,8 +26,8 @@ namespace Menu
 
         ImGui::Checkbox("Infinite Jump", &isInfiniteJump);
         ImGui::Checkbox("No Fall Damage", &isNoFallDamage);
-
         ImGui::Checkbox("Wall Climb", &isWallClimb);
+        ImGui::Checkbox("Air Swim", &isAirSwim);
 
         ImGui::End();
     }
@@ -66,5 +67,14 @@ namespace Menu
         }
 
         player.setWallClimb(isWallClimb ? 0.f : Base::Default::wallClimb);
+
+        if (isAirSwim)
+        {
+            Utils::Patch(Base::Addr::airSwim, { 0x00, 0x20 });
+        }
+        else
+        {
+            Utils::Patch(Base::Addr::airSwim, { 0x20, 0x00 });
+        }
     }
 }
