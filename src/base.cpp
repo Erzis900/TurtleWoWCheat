@@ -55,6 +55,7 @@ namespace Base
 		float fallingSpeed = 64.f;
 		float walkingSpeed = 7.f;
 		float wallClimb = 0.64f;
+		float jumpGravity = -7.955547333f;
 	}
 
 	//Functions

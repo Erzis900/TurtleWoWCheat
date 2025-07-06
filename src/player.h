@@ -21,6 +21,7 @@ public:
     void setWalkingSpeed(float speed) { walkingSpeedAddr = speed; }
     void setFallingSpeed(float speed) { fallingSpeedAddr = speed; }
     void setWallClimb(float value) { wallClimbAddr = value; }
+    void setJumpGravity(float value) { gravityJumpAddr = value; }
 
 private:
     static const int walkingSpeedOffset = 0x84;
@@ -28,6 +29,7 @@ private:
     static const int playerPosOffsets[3];
     Protected<float> fallingSpeedAddr{ reinterpret_cast<float*>(0x0087D894) };
     Protected<float> wallClimbAddr{ reinterpret_cast<float*>(0x0080DFFC) };
+    Protected<float> gravityJumpAddr{ reinterpret_cast<float*>(0x007C6272) };
     DWORD playerAddr;
     Protected<float> xAddr;
     Protected<float> yAddr;

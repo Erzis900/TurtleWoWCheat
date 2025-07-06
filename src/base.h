@@ -83,5 +83,6 @@ namespace Base
 		extern float fallingSpeed;
 		extern float walkingSpeed;
 		extern float wallClimb;
+		extern float jumpGravity;
 	}
 }

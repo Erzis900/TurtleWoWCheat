@@ -23,10 +23,17 @@ void Menu::Show()
     ImGui::Checkbox("Slow Fall", &isFallingSpeed);
     ImGui::Checkbox("Wall Climb", &isWallClimb);
     ImGui::Checkbox("Walk Speed", &isWalkingSpeed);
-
+    
     if (isWalkingSpeed)
     {
         ImGui::SliderFloat("Walk Speed", &walkingSpeed, 0.f, 300.f);
+    }
+
+    ImGui::Checkbox("Gravity Jump", &isGravityJump);
+
+    if (isGravityJump)
+    {
+        ImGui::SliderFloat("Gravity Jump", &jumpGravity, -100.f, 0.f);
     }
 
     for(auto& [name, cheatStruct]: patchCheats)
@@ -49,6 +56,8 @@ void Menu::ExecuteOptions()
         std::cout << "Setting walking speed to: " << walkingSpeed << std::endl;
         player.setWalkingSpeed(walkingSpeed);
     }
+
+    player.setJumpGravity(isGravityJump ? jumpGravity : Base::Default::jumpGravity);
     player.setFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
     player.setWallClimb(isWallClimb ? 0.f : Base::Default::wallClimb);
 

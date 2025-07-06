@@ -28,5 +28,7 @@ private:
     bool isFallingSpeed{ false };
     bool isWalkingSpeed{ false };
     bool isWallClimb{ false };
+    bool isGravityJump{ false };
     float walkingSpeed{ Base::Default::walkingSpeed };
+    float jumpGravity{ Base::Default::jumpGravity };
 };
