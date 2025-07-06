@@ -61,6 +61,7 @@ namespace Base
 		extern DWORD airSwim;
 		extern DWORD superFly;
 		extern DWORD unlockZoom;
+		extern DWORD antiRoot;
 		extern DWORD* entityManager;
 		extern char* version;
 	}
@@ -73,6 +74,7 @@ namespace Base
 		extern int airSwim;
 		extern int superFly;
 		extern int unlockZoom;
+		extern int antiRoot;
 
 		extern int firstEntity;
 		extern int nextEntity;

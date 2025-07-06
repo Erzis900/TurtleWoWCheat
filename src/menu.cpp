@@ -109,4 +109,5 @@ void Menu::initializePatchCheats()
     emplace("Air Swim", Base::Addr::airSwim, {0x20, 0x00}, {0x00, 0x20});
     emplace("Super Fly", Base::Addr::superFly, {0x74, 0x25});
     emplace("Unlock Zoom", Base::Addr::unlockZoom, {0xF6, 0xC4, 0x41});
+    emplace("Anti Root", Base::Addr::antiRoot, { 0x8A, 0x47 }, { 0xEB, 0xF9 });
 }
