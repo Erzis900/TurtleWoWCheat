@@ -8,7 +8,7 @@ struct ValueCheat
 {
     bool checkboxState; // state in GUI
     bool isActivated; // state in game
-    const bool showSlider{false};
+    const bool showSlider;
     std::function<void(float)> handler;
     float valueController; // to be modified by slider, if showSlider is set to true
     const float defaultValueWhenOff; // original value

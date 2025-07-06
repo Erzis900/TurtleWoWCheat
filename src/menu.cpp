@@ -54,7 +54,7 @@ void Menu::ExecuteOptions()
             cheatStruct.handler(cheatStruct.defaultValueWhenOff);
             cheatStruct.isActivated = false;
         }
-        if(cheatStruct.checkboxState && !cheatStruct.isActivated)
+        else if(cheatStruct.checkboxState)
         {
             cheatStruct.handler(cheatStruct.valueController);
             cheatStruct.isActivated = true;
@@ -68,7 +68,7 @@ void Menu::ExecuteOptions()
             Utils::Patch(cheatStruct.address, cheatStruct.originalBytes);
             cheatStruct.isActivated = false;
         }
-        if(cheatStruct.checkboxState && !cheatStruct.isActivated)
+        else if(cheatStruct.checkboxState && !cheatStruct.isActivated)
         {
             Utils::Patch(cheatStruct.address, cheatStruct.patchBytes);
             cheatStruct.isActivated = true;
