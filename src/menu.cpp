@@ -10,6 +10,7 @@ Menu& Menu::Get()
     
     if(firstAccess)
     {
+        instance.initializeValueCheats();
         instance.initializePatchCheats();
         firstAccess = false;
     }
