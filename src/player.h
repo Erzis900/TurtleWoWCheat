@@ -37,9 +37,9 @@ private:
     Protected<float> walkingSpeedAddr;
 
     Player();
+    Player(Player&&) = default;
+    Player& operator=(Player&&) = default;
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
-    Player(Player&&) = delete;
-    Player& operator=(Player&&) = delete;
     ~Player() = default;
 };

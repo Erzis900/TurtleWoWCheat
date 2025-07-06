@@ -10,6 +10,7 @@ Menu& Menu::Get()
     
     if(firstAccess)
     {
+        instance.initializeValueCheats();
         instance.initializePatchCheats();
         firstAccess = false;
     }
@@ -18,73 +19,101 @@ Menu& Menu::Get()
 
 void Menu::Show()
 {
+    auto handleValueCheat = [](auto& cheatLabel, ValueCheat& cheatStruct)
+    {
+        ImGui::Checkbox(cheatLabel.c_str(), &cheatStruct.checkboxState);
+        if(cheatStruct.checkboxState && cheatStruct.showSlider)
+        {
+            ImGui::SliderFloat(cheatLabel.c_str(), &cheatStruct.valueController, cheatStruct.minValue, cheatStruct.maxValue);
+        }
+    };
     ImGui::Begin("Turtle WoW internal by Einhar");
     ImGui::Text("Detected WoW version: %s", Base::Addr::version);
-    ImGui::Checkbox("Slow Fall", &isFallingSpeed);
-    ImGui::Checkbox("Wall Climb", &isWallClimb);
-    ImGui::Checkbox("Walk Speed", &isWalkingSpeed);
-    
-    if (isWalkingSpeed)
-    {
-        ImGui::SliderFloat("Walk Speed", &walkingSpeed, 0.f, 300.f);
-    }
-
-    ImGui::Checkbox("Gravity Jump", &isGravityJump);
-
-    if (isGravityJump)
-    {
-        ImGui::SliderFloat("Gravity Jump", &jumpGravity, -100.f, 0.f);
-    }
 
     for(auto& [name, cheatStruct]: patchCheats)
     {
         ImGui::Checkbox(name.c_str(), &cheatStruct.checkboxState);
     }
-
+    for(auto& [name, cheatStruct]: valueCheats)
+    {
+        handleValueCheat(name, cheatStruct);
+    }
     ImGui::End();
 }
 
 void Menu::ExecuteOptions()
 {
-    [[maybe_unused]] auto& player = Player::Get();
     auto& entityManager = EntityManager::Get();
 
     entityManager.Update();
 
-    if(isWalkingSpeed)
+    for(auto& [_, cheatStruct]: valueCheats)
     {
-        std::cout << "Setting walking speed to: " << walkingSpeed << std::endl;
-        player.setWalkingSpeed(walkingSpeed);
-    }
-
-    player.setJumpGravity(isGravityJump ? jumpGravity : Base::Default::jumpGravity);
-    player.setFallingSpeed(isFallingSpeed ? 3.f : Base::Default::fallingSpeed);
-    player.setWallClimb(isWallClimb ? 0.f : Base::Default::wallClimb);
-
-    if(isFallingSpeed)
-    {
-        std::cout << "Setting falling speed to: " << 3.f << std::endl;
+        if(!cheatStruct.checkboxState && cheatStruct.isActivated)
+        {
+            cheatStruct.handler(cheatStruct.defaultValueWhenOff);
+            cheatStruct.isActivated = false;
+        }
+        else if(cheatStruct.checkboxState)
+        {
+            cheatStruct.handler(cheatStruct.valueController);
+            cheatStruct.isActivated = true;
+        }
     }
 
     for(auto& [_, cheatStruct]: patchCheats)
     {
-        if(!cheatStruct.checkboxState && cheatStruct.patchState)
+        if(!cheatStruct.checkboxState && cheatStruct.isActivated)
         {
             Utils::Patch(cheatStruct.address, cheatStruct.originalBytes);
-            cheatStruct.patchState = false;
+            cheatStruct.isActivated = false;
         }
-        if(cheatStruct.checkboxState && !cheatStruct.patchState)
+        else if(cheatStruct.checkboxState && !cheatStruct.isActivated)
         {
             Utils::Patch(cheatStruct.address, cheatStruct.patchBytes);
-            cheatStruct.patchState = true;
+            cheatStruct.isActivated = true;
         }
     }
+}
+
+void Menu::initializeValueCheats()
+{
+    assert(valueCheats.empty());
+
+    auto emplace = 
+        [&valueCheats=this->valueCheats]
+        (const std::string& cheatName, bool showSlider, std::function<void(float)> handler,
+            float valueWhenOn, float valueWhenOff, 
+            float minValue = 0.f, float maxValue = 100.f)
+    {
+        auto instance = ValueCheat{
+            false, // checkbox state
+            false, // is executed in code?
+            showSlider,
+            handler,
+            valueWhenOn,
+            valueWhenOff,
+            minValue,
+            maxValue};
+        valueCheats.insert({cheatName, instance});
+    };
+    emplace("Falling Speed", false, 
+            [](float value) { Player::Get().setFallingSpeed(value); }, 
+            3.f, Base::Default::fallingSpeed);
+    emplace("Walking Speed", true,
+            [](float value) { Player::Get().setWalkingSpeed(value); },
+            Base::Default::walkingSpeed, Base::Default::walkingSpeed, 0.f, 300.f);
+    emplace("Jump Gravity", true,
+            [](float value) { Player::Get().setJumpGravity(value); },
+            Base::Default::jumpGravity, Base::Default::jumpGravity, -100.f, 0.f);
+    emplace("Wall Climb", false,
+            [](float value) { Player::Get().setWallClimb(value); },
+            0.f, Base::Default::wallClimb);
 }
 
 
 void Menu::initializePatchCheats()
 {
-    constexpr auto numberOfPatchCheats = 5;
     assert(patchCheats.empty());
 
     auto emplace = [&patchCheats=this->patchCheats](const std::string& cheatName,
