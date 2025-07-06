@@ -6,7 +6,6 @@ DWORD WINAPI MainThread(LPVOID lpThreadParameter)
 {
 	Base::Data::hModule = (HMODULE)lpThreadParameter;
 	Base::Init();
-
 	return TRUE;
 }
 
