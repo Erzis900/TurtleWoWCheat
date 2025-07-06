@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "menu.h"
 #include "utils.h"
+#include "entityManager.h"
 
 Menu& Menu::Get()
 {
@@ -39,6 +40,10 @@ void Menu::Show()
 void Menu::ExecuteOptions()
 {
     [[maybe_unused]] auto& player = Player::Get();
+    auto& entityManager = EntityManager::Get();
+
+    entityManager.Update();
+
     if(isWalkingSpeed)
     {
         std::cout << "Setting walking speed to: " << walkingSpeed << std::endl;

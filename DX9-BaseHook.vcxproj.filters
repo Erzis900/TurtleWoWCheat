@@ -17,6 +17,8 @@
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\menu.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\entityManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\imgui\imconfig.h" />
@@ -33,6 +35,8 @@
     <ClInclude Include="src\player.hpp" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\menu.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\entityManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="assets\readme.txt" />

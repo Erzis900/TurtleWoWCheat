@@ -21,12 +21,12 @@ public:
     void ExecuteOptions();
     void initializePatchCheats();
 
-    std::map<std::string, PatchCheat> patchCheats;
-    bool isFallingSpeed{false};
-    bool isWalkingSpeed{false};
-    bool isWallClimb{false};
-    float walkingSpeed{Base::Default::walkingSpeed};
-
-protected:
+private:
     Menu() = default;
+
+    std::map<std::string, PatchCheat> patchCheats;
+    bool isFallingSpeed{ false };
+    bool isWalkingSpeed{ false };
+    bool isWallClimb{ false };
+    float walkingSpeed{ Base::Default::walkingSpeed };
 };

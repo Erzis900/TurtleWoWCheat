@@ -32,6 +32,7 @@ namespace Base
 		DWORD airSwim = base + Offset::airSwim;
 		DWORD superFly = base + Offset::superFly;
 		DWORD unlockZoom = base + Offset::unlockZoom;
+		DWORD* entityManager = (DWORD*)0x00B41414;
 		char* version = (char*)0x00837C04;
 	}
 
@@ -43,6 +44,10 @@ namespace Base
 		int airSwim = 0x3C620D;
 		int superFly = 0x2341BC;
 		int unlockZoom = 0x111459;
+
+		// entity manager
+		int firstEntity = 0xAC;
+		int nextEntity = 0x3C;
 	}
 
 	namespace Default
