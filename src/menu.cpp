@@ -57,7 +57,7 @@ void Menu::ExecuteOptions()
         if(cheatStruct.checkboxState && !cheatStruct.isActivated)
         {
             cheatStruct.handler(cheatStruct.valueController);
-            cheatStruct.isActivated = false;
+            cheatStruct.isActivated = true;
         }
     }
 
