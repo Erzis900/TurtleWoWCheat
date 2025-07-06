@@ -1,6 +1,7 @@
 #include <pch.h>
 #include <base.h>
 #include <vector>
+#include <spdlog/spdlog.h>
 #include "utils.h"
 
 //Data
@@ -61,14 +62,13 @@ namespace Base
 	}
 
 	//Functions
-
 	bool Init()
 	{
 		Hooks::Init();
-
 		FILE* fp;
 		AllocConsole();
 		freopen_s(&fp, "CONOUT$", "w", stdout);
+		spdlog::info("Cheat initialized!");
 		return true;
 	}
 

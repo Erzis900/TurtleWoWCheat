@@ -15,7 +15,6 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 		ImGui::SetNextWindowSize(ImVec2(400, 300));
 		Data::InitImGui = true;
 	}
-
 	if (!Data::InitImGui) return Data::oEndScene(pDevice); // is this reachable?
 
 	ImGui_ImplDX9_NewFrame();
