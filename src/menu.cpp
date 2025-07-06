@@ -104,7 +104,7 @@ void Menu::initializeValueCheats()
             [](float value) { Player::Get().setWalkingSpeed(value); },
             Base::Default::walkingSpeed, Base::Default::walkingSpeed, 0.f, 300.f);
     emplace("Jump Gravity", true,
-            [](float value) { Player::Get().setWalkingSpeed(value); },
+            [](float value) { Player::Get().setJumpGravity(value); },
             Base::Default::jumpGravity, Base::Default::jumpGravity, -100.f, 0.f);
     emplace("Wall Climb", false,
             [](float value) { Player::Get().setWallClimb(value); },
