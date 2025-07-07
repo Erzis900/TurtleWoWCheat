@@ -19,6 +19,7 @@
     <ClCompile Include="src\menu.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\entityManager.cpp" />
+    <ClCompile Include="src\config.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\imgui\imconfig.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\entityManager.h" />
+    <ClInclude Include="src\config.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="assets\readme.txt" />

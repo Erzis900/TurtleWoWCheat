@@ -211,6 +211,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\base.cpp" />
+    <ClCompile Include="src\config.cpp" />
     <ClCompile Include="src\entityManager.cpp" />
     <ClCompile Include="src\hooks\EndScene.cpp" />
     <ClCompile Include="src\hooks\hooks.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="include\imgui\imstb_truetype.h" />
     <ClInclude Include="include\libmem++\libmem.hpp" />
     <ClInclude Include="src\base.h" />
+    <ClInclude Include="src\config.h" />
     <ClInclude Include="src\entityManager.h" />
     <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\pch.h" />

@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "utils.h"
 #include "entityManager.h"
+#include "config.h"
 
 Menu& Menu::Get()
 {
@@ -43,22 +44,27 @@ void Menu::Show()
 
 void Menu::ExecuteOptions()
 {
-    auto& entityManager = EntityManager::Get();
-
-    entityManager.Update();
-
+    // auto& entityManager = EntityManager::Get();
+    // entityManager.Update();
+ 
     for(auto& [_, cheatStruct]: valueCheats)
     {
         if(!cheatStruct.checkboxState && cheatStruct.isActivated)
         {
             cheatStruct.handler(cheatStruct.defaultValueWhenOff);
             cheatStruct.isActivated = false;
+            Config::isUpdated = true;
         }
         else if(cheatStruct.checkboxState)
         {
             cheatStruct.handler(cheatStruct.valueController);
             cheatStruct.isActivated = true;
+            // TODO figure out a way to save this
+            // falling speed ON -> no save
+            // etc
         }
+
+        Config::settings[_] = cheatStruct.isActivated;
     }
 
     for(auto& [_, cheatStruct]: patchCheats)
@@ -67,12 +73,22 @@ void Menu::ExecuteOptions()
         {
             Utils::Patch(cheatStruct.address, cheatStruct.originalBytes);
             cheatStruct.isActivated = false;
+            Config::isUpdated = true;
         }
         else if(cheatStruct.checkboxState && !cheatStruct.isActivated)
         {
             Utils::Patch(cheatStruct.address, cheatStruct.patchBytes);
             cheatStruct.isActivated = true;
+            Config::isUpdated = true;
         }
+
+        Config::settings[_] = cheatStruct.isActivated;
+    }
+
+    if (Config::isUpdated)
+    {
+        Config::Save();
+        Config::isUpdated = false;
     }
 }
 
@@ -87,7 +103,7 @@ void Menu::initializeValueCheats()
             float minValue = 0.f, float maxValue = 100.f)
     {
         auto instance = ValueCheat{
-            false, // checkbox state
+            Config::settings[cheatName].get<bool>(), // checkbox state
             false, // is executed in code?
             showSlider,
             handler,
@@ -121,7 +137,7 @@ void Menu::initializePatchCheats()
     {
         const DWORD nopcode = 0x90;
         auto instance = PatchCheat{
-            false, // checkbox state
+            Config::settings[cheatName].get<bool>(), // checkbox state
             false, // patch state (was already done in memory?)
             originalBytes.size(),
             originalBytes, 

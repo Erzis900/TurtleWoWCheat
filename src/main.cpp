@@ -1,9 +1,12 @@
 #include "pch.h"
 #include "base.h"
 #include <iostream>
+#include "config.h"
 
 DWORD WINAPI MainThread(LPVOID lpThreadParameter)
 {
+	Config::Load();
+
 	Base::Data::hModule = (HMODULE)lpThreadParameter;
 	Base::Init();
 	return TRUE;

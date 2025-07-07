@@ -69,6 +69,7 @@ namespace Base
 		AllocConsole();
 		freopen_s(&fp, "CONOUT$", "w", stdout);
 		spdlog::info("Cheat initialized!");
+
 		return true;
 	}
 
