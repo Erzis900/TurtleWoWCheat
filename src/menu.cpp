@@ -28,7 +28,7 @@ void Menu::Show()
         }
     };
     ImGui::Begin("Turtle WoW internal by Einhar");
-    ImGui::Text("Detected WoW version: %s", Base::Addr::version);
+    ImGui::Text("Detected WoW version: %s", Addr::version);
 
     for(auto& [name, cheatStruct]: patchCheats)
     {
@@ -99,16 +99,16 @@ void Menu::initializeValueCheats()
     };
     emplace("Falling Speed", false, 
             [](float value) { Player::Get().setFallingSpeed(value); }, 
-            3.f, Base::Default::fallingSpeed);
+            3.f, Default::fallingSpeed);
     emplace("Walking Speed", true,
             [](float value) { Player::Get().setWalkingSpeed(value); },
-            Base::Default::walkingSpeed, Base::Default::walkingSpeed, 0.f, 300.f);
+            Default::walkingSpeed, Default::walkingSpeed, 0.f, 300.f);
     emplace("Jump Gravity", true,
             [](float value) { Player::Get().setJumpGravity(value); },
-            Base::Default::jumpGravity, Base::Default::jumpGravity, -100.f, 0.f);
+            Default::jumpGravity, Default::jumpGravity, -100.f, 0.f);
     emplace("Wall Climb", false,
             [](float value) { Player::Get().setWallClimb(value); },
-            0.f, Base::Default::wallClimb);
+            0.f, Default::wallClimb);
 }
 
 
@@ -117,9 +117,9 @@ void Menu::initializePatchCheats()
     assert(patchCheats.empty());
 
     auto emplace = [&patchCheats=this->patchCheats](const std::string& cheatName,
-            DWORD address, std::vector<BYTE> originalBytes, std::vector<BYTE> patchBytes = std::vector<BYTE>{})
+            uintptr_t address, std::vector<BYTE> originalBytes, std::vector<BYTE> patchBytes = std::vector<BYTE>{})
     {
-        const DWORD nopcode = 0x90;
+        const BYTE nopcode = 0x90;
         auto instance = PatchCheat{
             false, // checkbox state
             false, // patch state (was already done in memory?)
@@ -133,10 +133,10 @@ void Menu::initializePatchCheats()
         }
         patchCheats.insert({cheatName, instance});
     };
-    emplace("Infinite Jump", Base::Addr::infiniteJump, {0x75, 0x27});
-    emplace("No Fall Damage", Base::Addr::noFallDamage, {0x8B, 0x4F, 0x78});
-    emplace("Air Swim", Base::Addr::airSwim, {0x20, 0x00}, {0x00, 0x20});
-    emplace("Super Fly", Base::Addr::superFly, {0x74, 0x25});
-    emplace("Unlock Zoom", Base::Addr::unlockZoom, {0xF6, 0xC4, 0x41});
-    emplace("Anti Root", Base::Addr::antiRoot, { 0x8A, 0x47 }, { 0xEB, 0xF9 });
+    emplace("Infinite Jump", Addr::infiniteJump, {0x75, 0x27});
+    emplace("No Fall Damage", Addr::noFallDamage, {0x8B, 0x4F, 0x78});
+    emplace("Air Swim", Addr::airSwim, {0x20, 0x00}, {0x00, 0x20});
+    emplace("Super Fly", Addr::superFly, {0x74, 0x25});
+    emplace("Unlock Zoom", Addr::unlockZoom, {0xF6, 0xC4, 0x41});
+    emplace("Anti Root", Addr::antiRoot, { 0x8A, 0x47 }, { 0xEB, 0xF9 });
 }

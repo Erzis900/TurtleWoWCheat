@@ -1,9 +1,10 @@
 #pragma once
+#include <cstdint>
 
 namespace Utils
 {
 	template<typename T>
-	T Read(DWORD address)
+	T Read(uintptr_t address)
 	{
 		DWORD oldProtect;
 		VirtualProtect((LPVOID)address, sizeof(T), PAGE_EXECUTE_READWRITE, &oldProtect);
@@ -16,10 +17,9 @@ namespace Utils
 	}
 
 	template<typename T>
-	void Write(DWORD address, const T& value)
+	void Write(uintptr_t address, const T& value)
 	{
 		DWORD oldProtect;
-
 		VirtualProtect((LPVOID)address, sizeof(T), PAGE_EXECUTE_READWRITE, &oldProtect);
 
 		*(T*)(address) = value;
@@ -27,12 +27,9 @@ namespace Utils
 		VirtualProtect((LPVOID)address, sizeof(T), oldProtect, &oldProtect);
 	}
 
-	// DWORD ResolveChain(DWORD base, std::vector<DWORD> offsets);
-	// void Patch(DWORD address, std::vector<DWORD> bytes);
-	DWORD ResolveChain(DWORD base, const std::vector<int>& offsets);
-	void Patch(DWORD address, const std::vector<BYTE>& bytes);
-	void NOP(DWORD address, int count);
-	bool IsNOP(DWORD address, int count);
+	uintptr_t ResolveChain(uintptr_t base, const std::vector<std::ptrdiff_t>& offsets);
+	void Patch(uintptr_t address, const std::vector<BYTE>& bytes);
+	void NOP(uintptr_t address, int count);
 
 	template<typename T>
 	class Protected
@@ -44,11 +41,11 @@ namespace Utils
 		~Protected() = default;
 
 		Protected<T>& operator=(const T& value) {
-			Write<T>(reinterpret_cast<DWORD>(address), value);
+			Write<T>(reinterpret_cast<uintptr_t>(address), value);
 			return *this;
 		}
 		T operator*() const {
-			return Read<T>(reinterpret_cast<DWORD>(address));
+			return Read<T>(reinterpret_cast<uintptr_t>(address));
 		}
 
 	private:

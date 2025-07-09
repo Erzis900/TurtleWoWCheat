@@ -10,7 +10,10 @@ EntityManager& EntityManager::Get()
 
 EntityManager::EntityManager()
 {
-    currentEntity = *(DWORD*)(*Base::Addr::entityManager + Base::Offset::firstEntity);
+    firstEntity = 0xAC;
+    nextEntity = 0x3C;
+
+    currentEntity = *(uintptr_t*)(*Ptr::entityManager + firstEntity);
 }
 
 void EntityManager::Update()
@@ -23,20 +26,9 @@ void EntityManager::Update()
             float y = *(float*)(currentEntity + 0x9A8 + 0x14);
             float z = *(float*)(currentEntity + 0x9A8 + 0x18);
 
-            AddEntity(x, y, z);
             std::cout << type << " " << x << " " << y << " " << z << std::endl;
         }
 
-        currentEntity = *(DWORD*)(currentEntity + Base::Offset::nextEntity);
+        currentEntity = *(uintptr_t*)(currentEntity + nextEntity);
     }
-}
-
-void EntityManager::AddEntity(float x, float y, float z)
-{
-    Entity ent;
-    ent.x = x;
-    ent.y = y;
-    ent.z = z;
-
-    entities.push_back(ent);
 }

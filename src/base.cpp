@@ -25,42 +25,6 @@ bool              Base::Data::InitImGui  = false;
 
 namespace Base
 {
-	namespace Addr
-	{
-		DWORD base = (DWORD)GetModuleHandle(nullptr);
-		DWORD infiniteJump = base + Offset::infiniteJump;
-		DWORD noFallDamage = base + Offset::noFallDamage;
-		DWORD airSwim = base + Offset::airSwim;
-		DWORD superFly = base + Offset::superFly;
-		DWORD unlockZoom = base + Offset::unlockZoom;
-		DWORD antiRoot = base + Offset::antiRoot;
-		DWORD* entityManager = (DWORD*)0x00B41414;
-		char* version = (char*)0x00837C04;
-	}
-
-	namespace Offset
-	{
-		int player = 0x000AE4EC;
-		int infiniteJump = 0x3C625F;
-		int noFallDamage = 0x3C63DA;
-		int airSwim = 0x3C620D;
-		int superFly = 0x2341BC;
-		int unlockZoom = 0x111459;
-		int antiRoot = 0x2163DB;
-
-		// entity manager
-		int firstEntity = 0xAC;
-		int nextEntity = 0x3C;
-	}
-
-	namespace Default
-	{
-		float fallingSpeed = 64.f;
-		float walkingSpeed = 7.f;
-		float wallClimb = 0.64f;
-		float jumpGravity = -7.955547333f;
-	}
-
 	//Functions
 	bool Init()
 	{
@@ -84,4 +48,29 @@ namespace Base
 		CreateThread(nullptr, 0, ExitThread, Data::hModule, 0, nullptr);
 		return true;
 	}
+}
+
+namespace Addr
+{
+	uintptr_t player = 0x4AE4EC;
+	uintptr_t infiniteJump = 0x7C625F;
+	uintptr_t noFallDamage = 0x7C63DA;
+	uintptr_t airSwim = 0x7C620D;
+	uintptr_t superFly = 0x6341BC;
+	uintptr_t unlockZoom = 0x511459;
+	uintptr_t antiRoot = 0x6163DB;
+	uintptr_t version = 0x00837C04;
+}
+
+namespace Ptr
+{
+	extern uintptr_t* entityManager = (uintptr_t*)0x00B41414;
+}
+
+namespace Default
+{
+	float fallingSpeed = 64.f;
+	float walkingSpeed = 7.f;
+	float wallClimb = 0.64f;
+	float jumpGravity = -7.955547333f;
 }

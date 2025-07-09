@@ -1,13 +1,5 @@
 #pragma once
-#include <vector>
 #include "base.h"
-
-struct Entity
-{
-	float x;
-	float y;
-	float z;
-};
 
 class EntityManager
 {
@@ -18,7 +10,7 @@ public:
 private:
 	EntityManager();
 
-	void AddEntity(float x, float y, float z);
-	std::vector<Entity> entities;
-	DWORD currentEntity;
+	uintptr_t currentEntity;
+	std::ptrdiff_t firstEntity;
+	std::ptrdiff_t nextEntity;
 };

@@ -23,7 +23,7 @@ struct PatchCheat
     size_t patchSize;
     std::vector<BYTE> originalBytes;
     std::vector<BYTE> patchBytes;
-    DWORD address;
+    uintptr_t address;
 };
 
 class Menu

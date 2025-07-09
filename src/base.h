@@ -51,40 +51,29 @@ namespace Base
 		HRESULT __stdcall EndScene(LPDIRECT3DDEVICE9 pDevice);
 		LRESULT CALLBACK  WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	}
+}
 
-	namespace Addr
-	{
-		extern DWORD base;
-		extern DWORD player;
-		extern DWORD infiniteJump;
-		extern DWORD noFallDamage;
-		extern DWORD airSwim;
-		extern DWORD superFly;
-		extern DWORD unlockZoom;
-		extern DWORD antiRoot;
-		extern DWORD* entityManager;
-		extern char* version;
-	}
+namespace Addr
+{
+	extern uintptr_t player;
+	extern uintptr_t infiniteJump;
+	extern uintptr_t noFallDamage;
+	extern uintptr_t airSwim;
+	extern uintptr_t superFly;
+	extern uintptr_t unlockZoom;
+	extern uintptr_t antiRoot;
+	extern uintptr_t version;
+}
 
-	namespace Offset
-	{
-		extern int player;
-		extern int infiniteJump;
-		extern int noFallDamage;
-		extern int airSwim;
-		extern int superFly;
-		extern int unlockZoom;
-		extern int antiRoot;
+namespace Ptr
+{
+	extern uintptr_t* entityManager;
+}
 
-		extern int firstEntity;
-		extern int nextEntity;
-	}
-
-	namespace Default
-	{
-		extern float fallingSpeed;
-		extern float walkingSpeed;
-		extern float wallClimb;
-		extern float jumpGravity;
-	}
+namespace Default
+{
+	extern float fallingSpeed;
+	extern float walkingSpeed;
+	extern float wallClimb;
+	extern float jumpGravity;
 }
