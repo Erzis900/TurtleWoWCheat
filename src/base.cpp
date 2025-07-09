@@ -64,7 +64,11 @@ namespace Addr
 
 namespace Ptr
 {
-	extern uintptr_t* entityManager = (uintptr_t*)0x00B41414;
+	uintptr_t* entityManager = (uintptr_t*)0x00B41414;
+	uintptr_t* worldFrame = (uintptr_t*)0x00B4B2BC;
+
+	GetActiveCamera_t GetActiveCamera = (GetActiveCamera_t)0x004818F0;
+	WorldToScreen_t WorldToScreen = (WorldToScreen_t)0x00483EE0;
 }
 
 namespace Default

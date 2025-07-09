@@ -31,4 +31,11 @@ namespace Utils
 	{
 		Patch(address, std::vector<BYTE>(count, nopCode));
 	}
+
+	float Distance(const Vec3& a, const Vec3& b) {
+		float dx = a.x - b.x;
+		float dy = a.y - b.y;
+		float dz = a.z - b.z;
+		return std::sqrt(dx * dx + dy * dy + dz * dz);
+	}
 }

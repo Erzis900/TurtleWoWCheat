@@ -65,9 +65,21 @@ namespace Addr
 	extern uintptr_t version;
 }
 
+struct Vec3
+{
+	float x, y, z;
+};
+
 namespace Ptr
 {
 	extern uintptr_t* entityManager;
+	extern uintptr_t* worldFrame;
+
+	typedef uintptr_t(__cdecl* GetActiveCamera_t)();
+	extern GetActiveCamera_t GetActiveCamera;
+
+	typedef bool(__thiscall* WorldToScreen_t)(uintptr_t frame, Vec3* worldPos, ImVec2* screenOut);
+	extern WorldToScreen_t WorldToScreen;
 }
 
 namespace Default

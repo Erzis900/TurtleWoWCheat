@@ -1,6 +1,12 @@
 #pragma once
 #include "base.h"
 
+enum EntityType : int
+{
+	UNIT = 3,
+	PLAYER = 4,
+};
+
 class EntityManager
 {
 public:

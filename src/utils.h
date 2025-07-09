@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include "base.h"
 
 namespace Utils
 {
@@ -30,6 +31,7 @@ namespace Utils
 	uintptr_t ResolveChain(uintptr_t base, const std::vector<std::ptrdiff_t>& offsets);
 	void Patch(uintptr_t address, const std::vector<BYTE>& bytes);
 	void NOP(uintptr_t address, int count);
+	float Distance(const Vec3& a, const Vec3& b);
 
 	template<typename T>
 	class Protected
