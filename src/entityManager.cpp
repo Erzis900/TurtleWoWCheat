@@ -48,15 +48,16 @@ Vec3 EntityManager::GetEntityPos(uintptr_t entity) const
     return { x, y, z };
 }
 
-void EntityManager::DrawLine(const Vec3& from, const Vec3& to)
+void EntityManager::DrawESPLine(const ImVec2& from, const ImVec2& to)
 {
-    ImVec2 fromScreen, toScreen;
-    if (!WorldToScreenInternal(from, fromScreen) || !WorldToScreenInternal(to, toScreen))
-        return;
-
     ImDrawList* drawList = ImGui::GetForegroundDrawList();
-    drawList->AddLine(fromScreen, toScreen, GetImGuiColor(color), 0.5f);
-    drawList->AddText(toScreen, GetImGuiColor(color), "test");
+    drawList->AddLine(from, to, GetImGuiColor(color), 0.5f);
+}
+
+void EntityManager::DrawESPText(const ImVec2& to, float distance)
+{
+    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+    drawList->AddText(to, GetImGuiColor(color), std::to_string(distance).c_str());
 }
 
 ImU32 EntityManager::GetImGuiColor(float* color)
@@ -79,7 +80,12 @@ void EntityManager::Update()
 
             if (!isDistanceLimit || distance < maxDistance)
             {
-                DrawLine(playerPos, enemyPos);
+                ImVec2 fromScreen, toScreen;
+                if (WorldToScreenInternal(playerPos, fromScreen) && WorldToScreenInternal(enemyPos, toScreen))
+                {
+                    DrawESPLine(fromScreen, toScreen);
+                    DrawESPText(toScreen, distance);
+                }
             }
         }
 

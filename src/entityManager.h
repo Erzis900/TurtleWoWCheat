@@ -21,7 +21,8 @@ private:
 
 	bool IsValidEntity(uintptr_t entity) const;
 	Vec3 GetEntityPos(uintptr_t entity) const;
-	void DrawLine(const Vec3& from, const Vec3& to);
+	void DrawESPLine(const ImVec2& from, const ImVec2& to);
+	void DrawESPText(const ImVec2& to, float distance);
 	ImU32 GetImGuiColor(float* color);
 
 	uintptr_t currentEntity;
