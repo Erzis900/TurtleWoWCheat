@@ -1,19 +1,7 @@
 #include "pch.h"
 #include "entityManager.h"
-#include "base.h"
 #include "player.h"
-
-EntityManager& EntityManager::Get()
-{
-    static EntityManager instance;
-    return instance;
-}
-
-EntityManager::EntityManager()
-{
-    firstEntity = 0xAC;
-    nextEntity = 0x3C;
-}
+#include <limits>
 
 bool WorldToScreenInternal(Vec3 pos, ImVec2& screenOut)
 {
@@ -33,35 +21,60 @@ bool WorldToScreenInternal(Vec3 pos, ImVec2& screenOut)
     return true;
 }
 
-void EntityManager::Update()
+EntityManager& EntityManager::Get()
 {
-    currentEntity = *(uintptr_t*)(*Ptr::entityManager + firstEntity);
-    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+    static EntityManager instance;
+    return instance;
+}
 
+EntityManager::EntityManager()
+{
+    firstEntity = 0xAC;
+    nextEntity = 0x3C;
+}
+
+bool EntityManager::IsValidEntity(uintptr_t entity) const
+{
+    int type = *(int*)(entity + 0x14);
+    return (type == UNIT && type != PLAYER);
+}
+
+Vec3 EntityManager::GetEntityPos(uintptr_t entity) const
+{
+    float x = *(float*)(currentEntity + 0x9A8 + 0x10);
+    float y = *(float*)(currentEntity + 0x9A8 + 0x14);
+    float z = *(float*)(currentEntity + 0x9A8 + 0x18);
+
+    return { x, y, z };
+}
+
+void EntityManager::DrawLine(const Vec3& from, const Vec3& to)
+{
+    ImVec2 screenPos;
+    if (!WorldToScreenInternal(to, screenPos))
+        return;
+
+    ImDrawList* drawList = ImGui::GetForegroundDrawList();
     ImGuiIO& io = ImGui::GetIO();
     ImVec2 topCenter = ImVec2(io.DisplaySize.x / 2, 0.f);
 
+    drawList->AddLine(topCenter, screenPos, IM_COL32(0, 255, 0, 255), 0.5f);
+}
+
+void EntityManager::Update()
+{
+    currentEntity = *(uintptr_t*)(*Ptr::entityManager + firstEntity);
+
+    auto& player = Player::Get();
+    Vec3 playerPos = { player.getX(), player.getY(), player.getZ() };
+
     while (currentEntity != NULL && (currentEntity & 1) == 0) {
-        int type = *(int*)(currentEntity + 0x14);
-        if (type == UNIT && type != PLAYER)
+        if (IsValidEntity(currentEntity))
         {
-            float x = *(float*)(currentEntity + 0x9A8 + 0x10);
-            float y = *(float*)(currentEntity + 0x9A8 + 0x14);
-            float z = *(float*)(currentEntity + 0x9A8 + 0x18);
-
-            Vec3 enemyPos = { x, y, z };
-
-            auto& player = Player::Get();
-            Vec3 playerPos = { player.getX(), player.getY(), player.getZ() };
-
-            float dist = Utils::Distance(playerPos, enemyPos);
-            if (dist < 50.f)
+            Vec3 enemyPos = GetEntityPos(currentEntity);
+            if (!isDistanceLimit || Utils::Distance(playerPos, enemyPos) < maxDistance)
             {
-                ImVec2 screenPos;
-                if (WorldToScreenInternal(enemyPos, screenPos))
-                {
-                    drawList->AddLine(topCenter, screenPos, IM_COL32(0, 255, 0, 255), 0.5f);
-                }
+                DrawLine(playerPos, enemyPos);
             }
         }
 

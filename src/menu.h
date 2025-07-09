@@ -40,4 +40,6 @@ private:
 
     std::map<std::string, ValueCheat> valueCheats;
     std::map<std::string, PatchCheat> patchCheats;
+
+    bool isESP{ false };
 };

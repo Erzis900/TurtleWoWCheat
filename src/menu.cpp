@@ -28,16 +28,42 @@ void Menu::Show()
         }
     };
     ImGui::Begin("Turtle WoW internal by Einhar");
-    ImGui::Text("Detected WoW version: %s", Addr::version);
+    ImGui::BeginTabBar("Tabs");
 
-    for(auto& [name, cheatStruct]: patchCheats)
+    if (ImGui::BeginTabItem("General"))
     {
-        ImGui::Checkbox(name.c_str(), &cheatStruct.checkboxState);
+        ImGui::Text("Detected WoW version: %s", Addr::version);
+
+        for (auto& [name, cheatStruct] : patchCheats)
+        {
+            ImGui::Checkbox(name.c_str(), &cheatStruct.checkboxState);
+        }
+        for (auto& [name, cheatStruct] : valueCheats)
+        {
+            handleValueCheat(name, cheatStruct);
+        }
+        ImGui::EndTabItem();
     }
-    for(auto& [name, cheatStruct]: valueCheats)
+    if (ImGui::BeginTabItem("Teleport"))
     {
-        handleValueCheat(name, cheatStruct);
+        // TODO teleport menu
+        ImGui::Text("Teleport menu goes here");
+        ImGui::EndTabItem();
     }
+    if (ImGui::BeginTabItem("ESP"))
+    {
+        ImGui::Checkbox("ESP", &isESP);
+        ImGui::Checkbox("Distance limit", &EntityManager::Get().GetIsDistanceLimit());
+        
+        if(EntityManager::Get().GetIsDistanceLimit()) 
+        {
+            ImGui::SliderFloat("Distance limit", &EntityManager::Get().GetMaxDistance(), 0.f, 500.f);
+        }
+
+        ImGui::EndTabItem();
+    }
+    
+    ImGui::EndTabBar();
     ImGui::End();
 }
 
@@ -45,7 +71,10 @@ void Menu::ExecuteOptions()
 {
     auto& entityManager = EntityManager::Get();
 
-    entityManager.Update();
+    if (isESP)
+    {
+        entityManager.Update();
+    }
 
     for(auto& [_, cheatStruct]: valueCheats)
     {
