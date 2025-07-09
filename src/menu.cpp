@@ -60,6 +60,8 @@ void Menu::Show()
             ImGui::SliderFloat("Distance limit", &EntityManager::Get().GetMaxDistance(), 0.f, 500.f);
         }
 
+        ImGui::ColorEdit3("Color", EntityManager::Get().getColor());
+
         ImGui::EndTabItem();
     }
     

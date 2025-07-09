@@ -50,15 +50,18 @@ Vec3 EntityManager::GetEntityPos(uintptr_t entity) const
 
 void EntityManager::DrawLine(const Vec3& from, const Vec3& to)
 {
-    ImVec2 screenPos;
-    if (!WorldToScreenInternal(to, screenPos))
+    ImVec2 fromScreen, toScreen;
+    if (!WorldToScreenInternal(from, fromScreen) || !WorldToScreenInternal(to, toScreen))
         return;
 
     ImDrawList* drawList = ImGui::GetForegroundDrawList();
-    ImGuiIO& io = ImGui::GetIO();
-    ImVec2 topCenter = ImVec2(io.DisplaySize.x / 2, 0.f);
+    drawList->AddLine(fromScreen, toScreen, GetImGuiColor(color), 0.5f);
+    drawList->AddText(toScreen, GetImGuiColor(color), "test");
+}
 
-    drawList->AddLine(topCenter, screenPos, IM_COL32(0, 255, 0, 255), 0.5f);
+ImU32 EntityManager::GetImGuiColor(float* color)
+{
+    return IM_COL32(color[0] * 255, color[1] * 255, color[2] * 255, 255);
 }
 
 void EntityManager::Update()
@@ -72,7 +75,9 @@ void EntityManager::Update()
         if (IsValidEntity(currentEntity))
         {
             Vec3 enemyPos = GetEntityPos(currentEntity);
-            if (!isDistanceLimit || Utils::Distance(playerPos, enemyPos) < maxDistance)
+            float distance = Utils::Distance(playerPos, enemyPos);
+
+            if (!isDistanceLimit || distance < maxDistance)
             {
                 DrawLine(playerPos, enemyPos);
             }
