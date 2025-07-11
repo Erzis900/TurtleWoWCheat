@@ -1,6 +1,7 @@
 #include <pch.h>
 #include <base.h>
 #include "../menu.h"
+#include "entityManager.h"
 
 HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 {
@@ -22,6 +23,12 @@ HRESULT __stdcall Base::Hooks::EndScene(LPDIRECT3DDEVICE9 pDevice)
 	ImGui::NewFrame();
 
 	auto& menu = Menu::Get();
+
+	if (menu.getIsESP())
+	{
+		EntityManager::Get().Update();
+	}
+
 	if (Data::ShowMenu)
 	{
 		menu.Show();

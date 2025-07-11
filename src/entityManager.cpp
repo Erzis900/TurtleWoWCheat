@@ -50,13 +50,13 @@ Vec3 EntityManager::GetEntityPos(uintptr_t entity) const
 
 void EntityManager::DrawESPLine(const ImVec2& from, const ImVec2& to)
 {
-    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+    ImDrawList* drawList = ImGui::GetBackgroundDrawList();
     drawList->AddLine(from, to, GetImGuiColor(color), 0.5f);
 }
 
 void EntityManager::DrawESPText(const ImVec2& to, float distance)
 {
-    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+    ImDrawList* drawList = ImGui::GetBackgroundDrawList();
     drawList->AddText(to, GetImGuiColor(color), std::to_string(distance).c_str());
 }
 

@@ -35,6 +35,8 @@ public:
     void initializeValueCheats();
     void initializePatchCheats();
 
+    bool getIsESP() { return isESP; }
+
 private:
     Menu() = default;
 

@@ -71,13 +71,6 @@ void Menu::Show()
 
 void Menu::ExecuteOptions()
 {
-    auto& entityManager = EntityManager::Get();
-
-    if (isESP)
-    {
-        entityManager.Update();
-    }
-
     for(auto& [_, cheatStruct]: valueCheats)
     {
         if(!cheatStruct.checkboxState && cheatStruct.isActivated)
