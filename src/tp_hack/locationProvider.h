@@ -29,9 +29,9 @@ enum class Land : uint8_t
 {
     Kalimdor,
     EasternKingdoms,
-    Outland,
+    // Outland,
     First = Kalimdor,
-    Last = Outland
+    Last = EasternKingdoms
 };
 
 inline static std::string string(Land land)
@@ -39,7 +39,7 @@ inline static std::string string(Land land)
     static const std::unordered_map<Land, std::string> landNames = {
         {Land::Kalimdor, "Kalimdor"},
         {Land::EasternKingdoms, "Eastern Kingdoms"},
-        {Land::Outland, "Outland"}
+        // {Land::Outland, "Outland"}
     };
     return landNames.at(land);
 }

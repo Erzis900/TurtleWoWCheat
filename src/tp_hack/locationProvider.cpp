@@ -108,7 +108,7 @@ static LocationProvider::LocationsMap initLocations()
     LocationProvider::LocationsMap locations{
         {Land::Kalimdor, emptyCategoryToVectorMapping},
         {Land::EasternKingdoms, emptyCategoryToVectorMapping},
-        {Land::Outland, emptyCategoryToVectorMapping}
+        // {Land::Outland, emptyCategoryToVectorMapping}
     };
 
     for (const auto& entry : data)
