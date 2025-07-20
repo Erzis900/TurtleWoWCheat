@@ -1,6 +1,8 @@
 #pragma once
-#include "player.h"
+#include "pch.h"
 #include "base.h"
+#include "tp_hack/locationProvider.h"
+#include "player.h"
 #include <functional>
 #include <map>
 
@@ -40,8 +42,10 @@ public:
 private:
     Menu() = default;
 
-    std::map<std::string, ValueCheat> valueCheats;
-    std::map<std::string, PatchCheat> patchCheats;
+    std::map<std::string, ValueCheat> valueCheats{};
+    std::map<std::string, PatchCheat> patchCheats{};
+    LocationProvider locationProvider{};
+    LocationProvider::LocationsMap locationsMap;
 
     bool isESP{ false };
 };

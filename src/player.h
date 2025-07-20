@@ -10,7 +10,8 @@ public:
 
     float getX() const { return *xAddr; }
     float getY() const { return *yAddr; }
-    float getZ() const { return *zAddr; }
+    float getZ() const { return *zAddr; }    
+    void teleport(float x, float y, float z) { setX(x); setY(y); setZ(z); }
 	void setX(float x) { xAddr = x; }
 	void setY(float y) { yAddr = y; }
 	void setZ(float z) { zAddr = z; }

@@ -10,6 +10,7 @@ Menu& Menu::Get()
     
     if(firstAccess)
     {
+        instance.locationsMap = instance.locationProvider.GetLocationsMap();
         instance.initializeValueCheats();
         instance.initializePatchCheats();
         firstAccess = false;
@@ -27,7 +28,7 @@ void Menu::Show()
             ImGui::SliderFloat(cheatLabel.c_str(), &cheatStruct.valueController, cheatStruct.minValue, cheatStruct.maxValue);
         }
     };
-    ImGui::Begin("Turtle WoW internal by Einhar");
+    ImGui::Begin("Turtle WoW internal by Einhar and Prewendowski");
     ImGui::BeginTabBar("Tabs");
 
     if (ImGui::BeginTabItem("General"))
@@ -46,10 +47,30 @@ void Menu::Show()
     }
     if (ImGui::BeginTabItem("Teleport"))
     {
-        // TODO teleport menu
-        ImGui::Text("Teleport menu goes here");
+        ImGui::Columns(2, nullptr, false);
+        for (const auto& land : { Land::Kalimdor, Land::EasternKingdoms })
+        {
+            ImGui::TextColored(ImVec4(0.8f, 0.9f, 1.0f, 1.0f), "%s", string(land).c_str());
+            const auto& categoriesAndLocations = locationsMap.at(land);
+            for (const auto& [category, locations] : categoriesAndLocations)
+            {
+                ImGui::Text("%s", string(category).c_str());
+                ImGui::Indent();
+                for (const auto& location : locations)
+                {
+                    if (ImGui::Button(location.name.c_str()))
+                    {
+                        Player::Get().teleport(location.x, location.y, location.z);
+                    }
+                }
+                ImGui::Unindent();
+            }
+            ImGui::NextColumn();
+        }
+        ImGui::Columns(1);
         ImGui::EndTabItem();
     }
+
     if (ImGui::BeginTabItem("ESP"))
     {
         ImGui::Checkbox("ESP", &isESP);
