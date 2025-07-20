@@ -19,6 +19,7 @@
     <ClCompile Include="src\menu.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\entityManager.cpp" />
+    <ClCompile Include="src\tp_hack\locationProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\imgui\imconfig.h" />
@@ -37,6 +38,8 @@
     <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\entityManager.h" />
+    <ClInclude Include="src\tp_hack\locationProvider.h" />
+    <ClInclude Include="src\tp_hack\location.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="assets\readme.txt" />

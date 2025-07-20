@@ -10,6 +10,7 @@ Menu& Menu::Get()
     
     if(firstAccess)
     {
+        instance.locationsMap = instance.locationProvider.GetLocationsMap();
         instance.initializeValueCheats();
         instance.initializePatchCheats();
         firstAccess = false;
@@ -46,8 +47,20 @@ void Menu::Show()
     }
     if (ImGui::BeginTabItem("Teleport"))
     {
-        // TODO teleport menu
-        ImGui::Text("Teleport menu goes here");
+        for(const auto& [land, categoriesAndLocations]: locationsMap)
+        {
+            for(const auto& [category, locations]: categoriesAndLocations)
+            {
+                ImGui::Text("%s - %s", string(land).c_str(), string(category).c_str());
+                for(const auto& location: locations)
+                {
+                    if (ImGui::Button(location.name.c_str()))
+                    {
+                        Player::Get().teleport(location.x, location.y, location.z);
+                    }
+                }
+            }
+        }
         ImGui::EndTabItem();
     }
     if (ImGui::BeginTabItem("ESP"))

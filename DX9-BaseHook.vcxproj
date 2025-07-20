@@ -224,6 +224,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\tp_hack\locationProvider.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +243,8 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\player.hpp" />
+    <ClInclude Include="src\tp_hack\location.h" />
+    <ClInclude Include="src\tp_hack\locationProvider.h" />
     <ClInclude Include="src\utils.h" />
   </ItemGroup>
   <ItemGroup>
