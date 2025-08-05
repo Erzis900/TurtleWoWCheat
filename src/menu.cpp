@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "utils.h"
 #include "entityManager.h"
+#include <spdlog/spdlog.h>
 
 Menu& Menu::Get()
 {
@@ -45,7 +46,7 @@ void Menu::Show()
         }
         ImGui::EndTabItem();
     }
-    if (ImGui::BeginTabItem("Teleport"))
+    if (ImGui::BeginTabItem("TP"))
     {
         ImGui::Columns(2, nullptr, false);
         for (const auto& land : { Land::Kalimdor, Land::EasternKingdoms })
@@ -68,6 +69,44 @@ void Menu::Show()
             ImGui::NextColumn();
         }
         ImGui::Columns(1);
+        ImGui::EndTabItem();
+    }
+
+    if (ImGui::BeginTabItem("Custom TP"))
+    {
+        ImGui::InputText("Location Name", locationName, IM_ARRAYSIZE(locationName));
+
+        if (ImGui::Button("Save Location")) {
+            if (strlen(locationName) > 0) {
+                auto& player = Player::Get();
+                savedLocations.push_back({ locationName, player.getX(), player.getY(), player.getZ() });
+                locationName[0] = '\0'; 
+            }
+        }
+
+        if (ImGui::ListBoxHeader("Saved Locations")) {
+            for (size_t i = 0; i < savedLocations.size(); ++i) {
+                bool isSelected = (i == selectedLocationIndex);
+
+                if (ImGui::Selectable(savedLocations[i].name.c_str(), isSelected)) {
+                    selectedLocationIndex = i;
+                }
+
+                if (isSelected) {
+                    ImGui::SetItemDefaultFocus();
+                }
+            }
+
+            ImGui::ListBoxFooter();
+        }
+
+        if (ImGui::Button("Teleport to Selected") && selectedLocationIndex >= 0) {
+            auto& player = Player::Get();
+            const auto& loc = savedLocations[selectedLocationIndex];
+            player.teleport(loc.x, loc.y, loc.z);
+            spdlog::info("Teleported to {}: x = {}, y = {}, z = {}", loc.name, loc.x, loc.y, loc.z);
+        }
+
         ImGui::EndTabItem();
     }
 
@@ -142,7 +181,7 @@ void Menu::initializeValueCheats()
             maxValue};
         valueCheats.insert({cheatName, instance});
     };
-    emplace("Falling Speed", false, 
+    emplace("Slow Fall", false, 
             [](float value) { Player::Get().setFallingSpeed(value); }, 
             3.f, Default::fallingSpeed);
     emplace("Walking Speed", true,

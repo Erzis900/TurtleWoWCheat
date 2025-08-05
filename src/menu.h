@@ -5,6 +5,7 @@
 #include "player.h"
 #include <functional>
 #include <map>
+#include "tp_hack/location.h"
 
 struct ValueCheat
 {
@@ -46,6 +47,11 @@ private:
     std::map<std::string, PatchCheat> patchCheats{};
     LocationProvider locationProvider{};
     LocationProvider::LocationsMap locationsMap;
+
+    // custom teleport
+    char locationName[128] = "";
+    std::vector<Location> savedLocations;
+    int selectedLocationIndex = -1;
 
     bool isESP{ false };
 };
